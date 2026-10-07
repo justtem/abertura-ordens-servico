@@ -6,4 +6,5 @@ import br.com.ordensservico.Model.SetoresModel;
 
 public interface SetoresRepository extends JpaRepository<SetoresModel, Integer> {
 
+    boolean existsById(Integer id);
 }
