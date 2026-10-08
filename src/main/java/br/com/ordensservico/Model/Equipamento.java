@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 @Entity 
@@ -17,12 +19,15 @@ public class Equipamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "O nome do equipamento não pode ser vazio")
     private String nome;
 
+    @NotBlank(message = "O número de patrimônio não pode ser vazio")
     private String numeroPatrimonio;
 
     @ManyToOne 
     @JoinColumn (name = "setor_id", nullable = false)
+    @NotNull(message = "O setor do equipamento não pode ser nulo")
     private SetoresModel setor;
 
     public Equipamento() {
@@ -62,4 +67,9 @@ public class Equipamento {
     public void setNumeroPatrimonio(String numeroPatrimonio) {
         this.numeroPatrimonio = numeroPatrimonio;
     }
+
+    public String getNomeSetor() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
