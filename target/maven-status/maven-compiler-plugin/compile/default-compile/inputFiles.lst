@@ -1,10 +1,15 @@
-C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\Config\SecurityConfig.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\config\SecurityConfig.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\controller\AlunoController.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\controller\AuthController.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\controller\EmprestimoController.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\controller\LivroController.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\controller\UsuarioController.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\dto\EmprestimoRequest.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\dto\LoginRequest.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\dto\RenovacaoRequest.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\dto\TokenResponse.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\dto\UsuarioRequest.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\dto\UsuarioResponse.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\exception\ValidacaoExceptionHandler.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\model\Aluno.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\model\Emprestimo.java
@@ -15,6 +20,9 @@ C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\rep
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\repository\LivroRepository.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\repository\UsuarioRepository.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\service\AlunoService.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\service\AutenticacaoService.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\service\EmprestimoService.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\service\LivroService.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\service\TokenService.java
+C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\service\UsuarioService.java
 C:\Users\VAS0035368\Desktop\TesteSpringBoot\src\main\java\br\com\senai\teste\TesteApplication.java

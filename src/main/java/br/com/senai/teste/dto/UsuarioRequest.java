@@ -1,13 +1,15 @@
 package br.com.senai.teste.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class UsuarioRequest {
     
     @NotBlank(message = "O login é obrigatorio")
     private String login;
 
-    @NotBlank(message = "A senha deve possuir pelo menos 6 caracteres")
+    @NotBlank(message = "A senha e obrigatoria")
+    @Size(min = 6, message = "A senha deve possuir pelo menos 6 caracteres")
     private String senha;
 
     public String getLogin() {
@@ -23,7 +25,7 @@ public class UsuarioRequest {
     }
 
     public void setSenha(String senha) {
-        this.login = senha;
+        this.senha = senha;
     }
 
 

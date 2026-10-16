@@ -25,8 +25,8 @@ public class UsuarioController {
 
     @PostMapping 
     public ResponseEntity<UsuarioResponse> cadastrar(
-           @Valid @RequestBody UsuarioRequest dados) {
-            
+         @Valid @RequestBody UsuarioRequest dados) {
+
         Usuario usuarioCadastrado = 
                 usuarioService.cadastrar(dados);
 

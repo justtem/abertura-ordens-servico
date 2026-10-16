@@ -40,4 +40,6 @@ public class AutenticacaoService implements UserDetailsService{
         .roles("USER")
         .build();
     }
+
+    
 }
