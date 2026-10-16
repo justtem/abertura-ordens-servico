@@ -1,7 +1,5 @@
 package br.com.senai.teste.service;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;

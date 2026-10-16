@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class EmprestimoController {
     
     private final EmprestimoRepository emprestimoRepository;
+    
     private final EmprestimoService emprestimoService;
 
     public EmprestimoController(EmprestimoService emprestimoService, EmprestimoRepository emprestimoRepository) {
