@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import br.com.senai.teste.model.Livro;
 import br.com.senai.teste.service.LivroService;
@@ -93,4 +95,17 @@ public class LivroController {
         return ResponseEntity.ok(livroAtualizado);
     }
     
+    @GetMapping("/{id}/capa")
+    public ResponseEntity<byte[]> buscarCapa(@PathVariable Integer id) {
+
+    Optional<byte[]> capa = livroService.buscarCapa(id);
+
+    if (capa.isPresent()) {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE)
+                .body(capa.get());
+    }
+
+    return ResponseEntity.notFound().build();
+}
 }

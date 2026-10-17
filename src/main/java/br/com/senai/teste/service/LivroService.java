@@ -2,13 +2,17 @@ package br.com.senai.teste.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.nio.file.Path;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
 
 import br.com.senai.teste.model.Livro;
 import br.com.senai.teste.repository.LivroRepository;
@@ -96,4 +100,35 @@ public class LivroService {
 
         return livroRepository.save(livro);
     }
+
+public Optional<byte[]> buscarCapa(Integer id) {
+    Optional<Livro> resultado = livroRepository.findById(id);
+
+    if (resultado.isEmpty()) {
+        return Optional.empty();
+    }
+
+    Livro livro = resultado.get();
+
+    String nomeArquivo = livro.getNomeArquivoCapa();
+
+    if (nomeArquivo == null || nomeArquivo.isBlank()) {
+        return Optional.empty();
+    }
+
+    try {
+        Path caminho = Paths.get("uploads/capas")
+                .resolve(nomeArquivo)
+                .normalize();
+
+        if (!Files.exists(caminho) || !Files.isRegularFile(caminho)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(Files.readAllBytes(caminho));
+
+    } catch (IOException e) {
+        throw new RuntimeException("Erro ao ler a capa do livro", e);
+    }
+}
 }
