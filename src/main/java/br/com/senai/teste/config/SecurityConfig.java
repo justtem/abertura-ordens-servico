@@ -50,27 +50,26 @@ public class SecurityConfig {
             .sessionManagement(session -> session
                     .sessionCreationPolicy(
                         SessionCreationPolicy.STATELESS))
-           .authorizeHttpRequests(auth -> auth
-    .requestMatchers(
-        "/",
-        "/index.html",
-        "/styles.css",
-        "/app.js",
-        "/favicon.ico"
-    ).permitAll()
-    .requestMatchers(
-        HttpMethod.POST,
-        "/usuarios",
-        "/auth/login"
-    ).permitAll()
-    .anyRequest().authenticated()
-)
-                    
-                    .oauth2ResourceServer(oauth2 -> oauth2
+                        .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                            "/",
+                            "/index.html",
+                            "/styles.css",
+                            "/app.js",
+                            "/favicon.ico"
+                        ).permitAll()
+                        .requestMatchers(
+                            HttpMethod.POST,
+                            "/usuarios",
+                            "/auth/login"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                    )
+                .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(Customizer.withDefaults()));
 
-                return http.build();
-}
+        return http.build();
+    }
     
     @Bean 
     public JwtEncoder jwtEcoder(SecretKey secretKey) {

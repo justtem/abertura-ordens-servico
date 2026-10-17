@@ -1,0 +1,834 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#263c2e">
+<title>Biblioteca Pontilhada</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green:#263c2e;
+  --green2:#405b43;
+  --cream:#f6f3eb;
+  --paper:#fffdf8;
+  --beige:#e5ddcd;
+  --wood:#b78a61;
+  --text:#292c25;
+  --muted:#7e8277;
+  --red:#a5463d;
+  --shadow:0 8px 28px rgba(38,60,46,.07);
+}
+* { box-sizing:border-box }
+body { margin:0;background:var(--cream);color:var(--text);font:14px "DM Sans",sans-serif }
+button,input,select,textarea { font:inherit }
+button { cursor:pointer }
+button:disabled { opacity:.55;cursor:not-allowed }
+input,select,textarea {
+  width:100%;padding:12px 13px;border:1px solid var(--beige);
+  border-radius:10px;background:white;color:var(--text);outline:none
+}
+input:focus,select:focus,textarea:focus { border-color:var(--green2);box-shadow:0 0 0 3px #405b4318 }
+label { display:grid;gap:7px;color:var(--green);font-weight:600 }
+h1,h2,h3 { font-family:"Playfair Display",Georgia,serif;color:var(--green) }
+h1 { font-size:clamp(27px,3vw,39px);margin:0 0 7px }
+h2 { font-size:26px }
+p { line-height:1.6 }
+small,.muted { color:var(--muted) }
+.hidden { display:none!important }
+
+.sidebar {
+  position:fixed;inset:0 auto 0 0;width:240px;padding:27px 16px;
+  display:flex;flex-direction:column;background:var(--green);color:#fff;
+  overflow-y:auto;z-index:5
+}
+.brand { display:flex;align-items:center;gap:12px;padding:0 9px 32px;color:white;text-decoration:none;font:700 23px "Playfair Display",serif }
+.brand-icon { padding:8px 11px;border-radius:12px 12px 12px 4px;background:#e7c99e;color:var(--green) }
+.brand small { display:block;color:#c9d2c3;font:10px "DM Sans",sans-serif;letter-spacing:3px;margin-top:3px }
+.menu-label { margin:19px 10px 9px;color:#a9b9a8;font-size:10px;font-weight:700;letter-spacing:1.5px }
+.nav-item { display:flex;align-items:center;gap:12px;width:100%;padding:13px;border:0;border-radius:10px;background:transparent;color:#e2e8dd;text-align:left;margin:3px 0 }
+.nav-item:hover { background:#ffffff13 }
+.nav-item.active { background:#e7c99e;color:var(--green);font-weight:700 }
+.sidebar-bottom { margin-top:auto;padding:15px 9px 0;color:#a9b9a8;font-size:11px;line-height:1.7 }
+
+main { margin-left:240px;padding:32px clamp(17px,4vw,48px);min-height:100vh }
+.topbar { display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:27px }
+.eyebrow { color:var(--wood);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:9px }
+.search { width:min(100%,320px);background:var(--paper) }
+.btn { display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:11px 16px;background:var(--green);color:white;font-weight:600 }
+.btn:hover { background:var(--green2) }
+.btn-light { border:1px solid var(--beige);background:var(--paper);color:var(--green) }
+.btn-light:hover { background:#eee9de }
+.btn-danger { background:#a5463d }
+.btn-small { padding:8px 11px;font-size:12px }
+.hero { display:flex;justify-content:space-between;align-items:center;gap:18px;padding:30px;border-radius:19px;background:var(--green);color:white;margin-bottom:30px;overflow:hidden }
+.hero .eyebrow { color:#d7c19f }
+.hero h2 { margin:9px 0;color:#f8edda;font-size:clamp(25px,3vw,35px) }
+.hero p { max-width:510px;color:#d7dfd2 }
+.hero-mark { color:#e7c99e;font:110px "Playfair Display",serif;padding:0 22px;line-height:1 }
+.section-head { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0 17px }
+.section-head h2 { margin:0 }
+.page { display:none }
+.page.active { display:block }
+.book-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:19px }
+.book-card { min-width:0;padding:11px;border:1px solid #e9e3d8;border-radius:15px;background:var(--paper);box-shadow:var(--shadow);transition:transform .2s }
+.book-card:hover { transform:translateY(-4px) }
+.cover-wrap { height:215px;border-radius:8px;overflow:hidden;background:#e8e0d1;display:grid;place-items:center }
+.cover-wrap img { width:100%;height:100%;object-fit:cover }
+.cover-placeholder { height:100%;width:100%;display:grid;place-items:center;padding:15px;text-align:center;background:var(--green);color:#f8edda;font:700 19px "Playfair Display",serif;overflow-wrap:anywhere }
+.book-card h3 { margin:13px 0 5px;font:700 14px "DM Sans",sans-serif;line-height:1.45 }
+.book-card p { margin:0 0 10px;color:var(--muted);font-size:12px }
+.pill { display:inline-block;border-radius:30px;padding:5px 9px;background:#e5eddf;color:#38563a;font-size:10px;font-weight:700 }
+.card-actions { display:flex;flex-wrap:wrap;gap:6px;margin-top:12px }
+.panel,.stat,.form-card { border:1px solid #e9e3d8;border-radius:15px;background:var(--paper);box-shadow:var(--shadow);padding:22px;margin-bottom:20px }
+.stats { display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px }
+.stat span { color:var(--muted);font-size:12px }
+.stat strong { display:block;margin-top:8px;color:var(--green);font:700 29px "Playfair Display",serif }
+.form-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px }
+.form-grid .full { grid-column:1/-1 }
+.form-actions { display:flex;flex-wrap:wrap;gap:9px;margin-top:17px }
+.table-wrap { overflow:auto;border:1px solid #e9e3d8;border-radius:13px;background:var(--paper) }
+table { width:100%;border-collapse:collapse;min-width:610px }
+th,td { padding:13px 15px;border-bottom:1px solid #eee9df;text-align:left;vertical-align:top }
+th { background:#eeeadf;color:var(--green);font-size:12px }
+td { font-size:13px }
+.empty { padding:30px;text-align:center;border:1px dashed var(--beige);border-radius:14px;background:var(--paper);color:var(--muted);line-height:1.7 }
+.notice { display:none;position:fixed;right:20px;bottom:20px;z-index:20;max-width:min(420px,calc(100vw - 40px));padding:15px 19px;background:var(--green);color:white;border-radius:12px;box-shadow:0 8px 28px #0002;line-height:1.5;white-space:pre-line }
+.notice.error { background:#8f3832 }
+.login-screen { min-height:100vh;display:grid;place-items:center;padding:22px;background:var(--cream) }
+.login-card { width:min(100%,430px);padding:30px;border:1px solid var(--beige);border-radius:20px;background:var(--paper);box-shadow:var(--shadow) }
+.login-brand { font:700 28px "Playfair Display",serif;color:var(--green);margin-bottom:8px }
+.login-card form { display:grid;gap:15px;margin-top:22px }
+.login-card .btn { width:100% }
+.link-button { border:0;background:none;color:var(--green);text-decoration:underline;padding:10px }
+hr { border:0;border-top:1px solid #eee9df;margin:22px 0 }
+
+@media(max-width:760px) {
+  .sidebar { width:68px;padding:18px 8px }
+  .brand { justify-content:center;padding:0 0 25px }
+  .brand>span:last-child,.menu-label,.nav-item span,.sidebar-bottom { display:none }
+  .nav-item { justify-content:center;padding:14px 4px;font-size:18px }
+  main { margin-left:68px;padding:22px 13px }
+  .hero { padding:22px }
+  .hero-mark { display:none }
+  .book-grid { grid-template-columns:repeat(2,minmax(0,1fr));gap:12px }
+  .cover-wrap { height:190px }
+  .form-grid { grid-template-columns:1fr }
+  .form-grid .full { grid-column:auto }
+}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen hidden">
+  <div class="login-card">
+    <div class="login-brand">pontilhada <span style="color:var(--wood)">p.</span></div>
+    <div class="eyebrow">BIBLIOTECA</div>
+    <h2 id="authTitle">Bem-vindo de volta</h2>
+    <p class="muted" id="authDescription">Entre para consultar o acervo da biblioteca.</p>
+
+    <form id="authForm">
+      <label>Login
+        <input id="authLogin" required autocomplete="username" placeholder="Seu login">
+      </label>
+      <label>Senha
+        <input id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="Sua senha">
+      </label>
+      <button id="authSubmit" class="btn" type="submit">Entrar</button>
+    </form>
+    <button id="toggleAuth" class="link-button" type="button">Primeiro acesso? Criar usuário</button>
+    <p class="muted" style="font-size:11px">A autenticação utiliza o backend da aplicação.</p>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <aside class="sidebar">
+    <a href="#" class="brand" data-page="catalogo">
+      <span class="brand-icon">p.</span>
+      <span>pontilhada<small>BIBLIOTECA</small></span>
+    </a>
+
+    <p class="menu-label">EXPLORAR</p>
+    <button class="nav-item active" data-page="catalogo">⌕ <span>Catálogo</span></button>
+    <button class="nav-item" data-page="emprestimos">↗ <span>Empréstimos</span></button>
+    <button class="nav-item" data-page="historico">◷ <span>Histórico</span></button>
+
+    <p class="menu-label">GERENCIAMENTO</p>
+    <button class="nav-item" data-page="livros">▤ <span>Livros</span></button>
+    <button class="nav-item" data-page="usuarios">♙ <span>Usuários</span></button>
+
+    <div class="sidebar-bottom">
+      Um lugar para cada história.
+      <br><button id="logout" class="link-button" style="color:#fff;padding-left:0">Sair da conta</button>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">BIBLIOTECA · LEITURA · DESCOBERTA</div>
+        <h1 id="pageTitle">Encontre sua próxima história.</h1>
+        <div class="muted" id="pageSubtitle">Explore os livros cadastrados no acervo.</div>
+      </div>
+      <input id="search" class="search" type="search" placeholder="⌕ Buscar título ou autor...">
+    </header>
+
+    <section id="catalogo" class="page active">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">SEU PRÓXIMO CAPÍTULO COMEÇA AQUI</div>
+          <h2>Entre páginas,<br>encontre novos mundos.</h2>
+          <p>Explore os livros da Biblioteca Pontilhada e encontre sua próxima leitura.</p>
+          <button class="btn btn-light" id="exploreButton">Explorar catálogo ↓</button>
+        </div>
+        <div class="hero-mark">“</div>
+      </div>
+      <div class="section-head">
+        <h2>Na estante</h2>
+        <span class="muted" id="bookCount">Carregando...</span>
+      </div>
+      <div id="books" class="book-grid"></div>
+    </section>
+
+    <section id="livros" class="page">
+      <div class="section-head">
+        <div><h2>Gerenciar acervo</h2><p class="muted">Cadastre, edite e remova livros do banco de dados.</p></div>
+        <button id="newBook" class="btn">＋ Novo livro</button>
+      </div>
+
+      <div id="bookFormCard" class="form-card hidden">
+        <h3 id="bookFormTitle">Cadastrar livro</h3>
+        <form id="bookForm">
+          <input id="bookId" type="hidden">
+          <div class="form-grid">
+            <label>Título
+              <input id="bookTitle" required maxlength="255" placeholder="Título do livro">
+            </label>
+            <label>Autor
+              <input id="bookAuthor" required maxlength="255" placeholder="Nome do autor">
+            </label>
+            <label class="full">Ano de publicação
+              <input id="bookYear" type="number" required min="1" placeholder="Ex.: 2020">
+            </label>
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit">Salvar livro</button>
+            <button class="btn btn-light" id="cancelBook" type="button">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <div id="manageBooks" class="book-grid"></div>
+    </section>
+
+    <section id="emprestimos" class="page">
+      <div class="section-head">
+        <div><h2>Empréstimos</h2><p class="muted">Consulte empréstimos registrados no backend.</p></div>
+        <button class="btn" id="refreshLoans">↻ Atualizar</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span>Empréstimos ativos</span><strong id="activeCount">—</strong></div>
+        <div class="stat"><span>Em atraso</span><strong id="lateCount">—</strong></div>
+        <div class="stat"><span>Total registrado</span><strong id="loanCount">—</strong></div>
+      </div>
+
+      <div class="panel">
+        <h3>Registrar empréstimo</h3>
+        <p class="muted">Informe os IDs que já existem no sistema. A API exige alunoId, livroId e data prevista de devolução.</p>
+        <form id="loanForm">
+          <div class="form-grid">
+            <label>ID do aluno
+              <input id="loanStudentId" type="number" min="1" required>
+            </label>
+            <label>ID do livro
+              <input id="loanBookId" type="number" min="1" required>
+            </label>
+            <label class="full">Data prevista de devolução
+              <input id="loanDueDate" type="date" required>
+            </label>
+          </div>
+          <div class="form-actions"><button class="btn" type="submit">Registrar empréstimo</button></div>
+        </form>
+      </div>
+
+      <div class="section-head"><h2>Registros</h2></div>
+      <div id="loansTable"></div>
+    </section>
+
+    <section id="historico" class="page">
+      <div class="section-head">
+        <div><h2>Histórico</h2><p class="muted">Todos os empréstimos retornados pela API.</p></div>
+        <button class="btn" id="refreshHistory">↻ Atualizar</button>
+      </div>
+      <div id="historyTable"></div>
+    </section>
+
+    <section id="usuarios" class="page">
+      <div class="section-head">
+        <div><h2>Usuários</h2><p class="muted">Cadastre um usuário usando a API existente.</p></div>
+      </div>
+      <div class="form-card">
+        <h3>Cadastrar usuário</h3>
+        <p class="muted">O backend aceita login e senha. Não existe aqui uma rota conhecida para listar, editar ou excluir usuários.</p>
+        <form id="userForm">
+          <div class="form-grid">
+            <label>Login
+              <input id="newUserLogin" required autocomplete="username">
+            </label>
+            <label>Senha
+              <input id="newUserPassword" type="password" required minlength="6" autocomplete="new-password">
+            </label>
+          </div>
+          <div class="form-actions"><button class="btn" type="submit">Cadastrar usuário</button></div>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="notice" class="notice" role="status"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+  let token = sessionStorage.getItem("bibliotecaToken") || "";
+  let livros = [];
+  let emprestimos = [];
+  let authMode = "login";
+  let noticeTimer;
+
+  function avisar(message, error = false) {
+    const el = $("notice");
+    el.textContent = message;
+    el.classList.toggle("error", error);
+    el.style.display = "block";
+    clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(() => el.style.display = "none", 5000);
+  }
+
+  async function api(path, options = {}) {
+    const headers = new Headers(options.headers || {});
+    if (token) headers.set("Authorization", "Bearer " + token);
+
+    if (options.body && !(options.body instanceof FormData) && !headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
+    }
+
+    const response = await fetch(path, { ...options, headers });
+
+    if (response.status === 401 || response.status === 403) {
+      throw new Error("Acesso negado (HTTP " + response.status + "). Confira se você entrou com a conta correta.");
+    }
+
+    if (!response.ok) {
+      let details = "";
+      try { details = (await response.text()).slice(0, 250); } catch {}
+      throw new Error("Erro HTTP " + response.status + " em " + path + (details ? ": " + details : ""));
+    }
+
+    if (response.status === 204) return null;
+    const text = await response.text();
+    if (!text) return null;
+    try { return JSON.parse(text); } catch { return text; }
+  }
+
+  function setAuthMode(mode) {
+    authMode = mode;
+    $("authTitle").textContent = mode === "login" ? "Bem-vindo de volta" : "Crie seu acesso";
+    $("authDescription").textContent = mode === "login"
+      ? "Entre para consultar o acervo da biblioteca."
+      : "Cadastre seu login no sistema da biblioteca.";
+    $("authSubmit").textContent = mode === "login" ? "Entrar" : "Criar usuário";
+    $("toggleAuth").textContent = mode === "login"
+      ? "Primeiro acesso? Criar usuário"
+      : "Já tem conta? Entrar";
+    $("authPassword").autocomplete = mode === "login" ? "current-password" : "new-password";
+  }
+
+  function showApp() {
+    $("loginScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
+  }
+
+  function showLogin() {
+    $("app").classList.add("hidden");
+    $("loginScreen").classList.remove("hidden");
+  }
+
+  $("toggleAuth").addEventListener("click", () => {
+    setAuthMode(authMode === "login" ? "register" : "login");
+  });
+
+  $("authForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const login = $("authLogin").value.trim();
+    const senha = $("authPassword").value;
+    const button = $("authSubmit");
+    button.disabled = true;
+
+    try {
+      if (authMode === "register") {
+        await api("/usuarios", {
+          method: "POST",
+          body: JSON.stringify({ login, senha })
+        });
+        avisar("Usuário cadastrado. Agora entre com seu login e senha.");
+        setAuthMode("login");
+        $("authPassword").value = "";
+      } else {
+        const result = await fetch("/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ login, senha })
+        });
+
+        if (!result.ok) {
+          throw new Error("Login não autorizado. Confira as credenciais.");
+        }
+
+        const data = await result.json();
+        if (!data.token) throw new Error("A resposta do login não contém o token.");
+
+        token = data.token;
+        sessionStorage.setItem("bibliotecaToken", token);
+        showApp();
+        await carregarLivros();
+        carregarEmprestimos();
+      }
+    } catch (error) {
+      avisar(error.message || "Não foi possível concluir a operação.", true);
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  $("logout").addEventListener("click", () => {
+    token = "";
+    sessionStorage.removeItem("bibliotecaToken");
+    livros = [];
+    emprestimos = [];
+    showLogin();
+  });
+
+  function navegar(page) {
+    document.querySelectorAll(".page").forEach(el => el.classList.toggle("active", el.id === page));
+    document.querySelectorAll(".nav-item").forEach(el => el.classList.toggle("active", el.dataset.page === page));
+    const meta = {
+      catalogo: ["Encontre sua próxima história.", "Explore os livros cadastrados no acervo."],
+      livros: ["Gerenciar acervo", "Cadastre, edite e remova livros."],
+      emprestimos: ["Empréstimos", "Consulte e registre empréstimos."],
+      historico: ["Histórico", "Consulte as movimentações registradas."],
+      usuarios: ["Usuários", "Cadastro de usuários da biblioteca."]
+    };
+    $("pageTitle").textContent = meta[page][0];
+    $("pageSubtitle").textContent = meta[page][1];
+    $("search").classList.toggle("hidden", page !== "catalogo");
+    if (page === "livros") renderGerenciarLivros();
+    if (page === "emprestimos") carregarEmprestimos();
+    if (page === "historico") carregarHistorico();
+  }
+
+  document.querySelectorAll("[data-page]").forEach(el => {
+    el.addEventListener("click", event => {
+      event.preventDefault();
+      navegar(el.dataset.page);
+    });
+  });
+
+  $("exploreButton").addEventListener("click", () => {
+    $("books").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  function fallbackCapa(titulo, id) {
+    const colors = ["#344d3a", "#79513e", "#5c5269", "#8a4c3e", "#4b6271"];
+    const wrap = document.createElement("div");
+    wrap.className = "cover-placeholder";
+    wrap.style.background = colors[Math.abs(Number(id) || 0) % colors.length];
+    wrap.textContent = titulo || "Livro";
+    return wrap;
+  }
+
+  async function carregarCapa(livro, wrap) {
+    if (!livro.id) return;
+    try {
+      const response = await fetch("/livros/" + encodeURIComponent(livro.id) + "/capa", {
+        headers: { Authorization: "Bearer " + token }
+      });
+      if (!response.ok) return;
+      const blob = await response.blob();
+      if (!blob.type.startsWith("image/")) return;
+
+      const img = document.createElement("img");
+      img.alt = "Capa de " + (livro.titulo || "livro");
+      img.src = URL.createObjectURL(blob);
+      img.onload = () => URL.revokeObjectURL(img.src);
+      wrap.replaceChildren(img);
+    } catch {
+      // Sem capa: mantém o título estilizado.
+    }
+  }
+
+  function criarCard(livro, gerenciar = false) {
+    const card = document.createElement("article");
+    card.className = "book-card";
+    const cover = document.createElement("div");
+    cover.className = "cover-wrap";
+    cover.appendChild(fallbackCapa(livro.titulo, livro.id));
+
+    const title = document.createElement("h3");
+    title.textContent = livro.titulo || "Sem título";
+    const author = document.createElement("p");
+    author.textContent = livro.autor || "Autor não informado";
+    const year = document.createElement("span");
+    year.className = "pill";
+    year.textContent = livro.anoPublicacao || "Ano não informado";
+    card.append(cover, title, author, year);
+
+    carregarCapa(livro, cover);
+
+    if (gerenciar) {
+      const actions = document.createElement("div");
+      actions.className = "card-actions";
+
+      const edit = document.createElement("button");
+      edit.className = "btn btn-small";
+      edit.textContent = "Editar";
+      edit.addEventListener("click", () => preencherFormularioLivro(livro));
+
+      const del = document.createElement("button");
+      del.className = "btn btn-small btn-danger";
+      del.textContent = "Excluir";
+      del.addEventListener("click", () => excluirLivro(livro));
+
+      const coverButton = document.createElement("button");
+      coverButton.className = "btn btn-small btn-light";
+      coverButton.textContent = "Enviar capa";
+      coverButton.addEventListener("click", () => escolherCapa(livro));
+
+      actions.append(edit, del, coverButton);
+      card.appendChild(actions);
+    }
+    return card;
+  }
+
+  function renderCatalogo() {
+    const area = $("books");
+    area.replaceChildren();
+    const term = $("search").value.trim().toLowerCase();
+    const filtered = livros.filter(book =>
+      (book.titulo || "").toLowerCase().includes(term) ||
+      (book.autor || "").toLowerCase().includes(term)
+    );
+    $("bookCount").textContent = filtered.length + (filtered.length === 1 ? " livro" : " livros");
+
+    if (!filtered.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = term
+        ? "Nenhum livro corresponde à sua pesquisa."
+        : "O banco de dados não retornou livros cadastrados.";
+      area.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(book => area.appendChild(criarCard(book)));
+  }
+
+  async function carregarLivros() {
+    $("books").replaceChildren();
+    const loading = document.createElement("div");
+    loading.className = "empty";
+    loading.textContent = "Buscando livros no banco de dados...";
+    $("books").appendChild(loading);
+
+    try {
+      const data = await api("/livros");
+      if (!Array.isArray(data)) throw new Error("A API /livros não retornou uma lista.");
+      livros = data;
+      renderCatalogo();
+      renderGerenciarLivros();
+    } catch (error) {
+      $("books").replaceChildren();
+      const fail = document.createElement("div");
+      fail.className = "empty";
+      fail.textContent = error.message;
+      $("books").appendChild(fail);
+      avisar(error.message, true);
+    }
+  }
+
+  function renderGerenciarLivros() {
+    const area = $("manageBooks");
+    if (!area) return;
+    area.replaceChildren();
+
+    if (!livros.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "Nenhum livro retornado pela API.";
+      area.appendChild(empty);
+      return;
+    }
+
+    livros.forEach(book => area.appendChild(criarCard(book, true)));
+  }
+
+  function resetBookForm() {
+    $("bookForm").reset();
+    $("bookId").value = "";
+    $("bookFormTitle").textContent = "Cadastrar livro";
+    $("bookFormCard").classList.add("hidden");
+  }
+
+  function preencherFormularioLivro(book) {
+    $("bookId").value = book.id;
+    $("bookTitle").value = book.titulo || "";
+    $("bookAuthor").value = book.autor || "";
+    $("bookYear").value = book.anoPublicacao || "";
+    $("bookFormTitle").textContent = "Editar livro #" + book.id;
+    $("bookFormCard").classList.remove("hidden");
+    $("bookFormCard").scrollIntoView({ behavior: "smooth" });
+  }
+
+  $("newBook").addEventListener("click", () => {
+    resetBookForm();
+    $("bookFormTitle").textContent = "Cadastrar livro";
+    $("bookFormCard").classList.remove("hidden");
+    $("bookFormCard").scrollIntoView({ behavior: "smooth" });
+  });
+
+  $("cancelBook").addEventListener("click", resetBookForm);
+
+  $("bookForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const id = $("bookId").value;
+    const book = {
+      titulo: $("bookTitle").value.trim(),
+      autor: $("bookAuthor").value.trim(),
+      anoPublicacao: Number($("bookYear").value)
+    };
+
+    try {
+      await api(id ? "/livros/" + encodeURIComponent(id) : "/livros", {
+        method: id ? "PUT" : "POST",
+        body: JSON.stringify(book)
+      });
+      avisar(id ? "Livro atualizado." : "Livro cadastrado.");
+      resetBookForm();
+      await carregarLivros();
+    } catch (error) {
+      avisar(error.message, true);
+    }
+  });
+
+  async function excluirLivro(book) {
+    if (!confirm('Deseja excluir "' + book.titulo + '"?')) return;
+    try {
+      await api("/livros/" + encodeURIComponent(book.id), { method: "DELETE" });
+      avisar("Livro excluído.");
+      await carregarLivros();
+    } catch (error) {
+      avisar(error.message, true);
+    }
+  }
+
+  function escolherCapa(book) {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.addEventListener("change", async () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+
+      const form = new FormData();
+      form.append("arquivo", file);
+
+      try {
+        await api("/livros/" + encodeURIComponent(book.id) + "/capa", {
+          method: "POST",
+          body: form
+        });
+        avisar("Capa enviada.");
+        await carregarLivros();
+      } catch (error) {
+        avisar(error.message, true);
+      }
+    });
+    input.click();
+  }
+
+  function valor(obj, key) {
+    return obj && obj[key] != null ? obj[key] : "—";
+  }
+
+  function montarTabelaLoans(lista, area, historico = false) {
+    area.replaceChildren();
+    if (!Array.isArray(lista) || !lista.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "Nenhum empréstimo encontrado na API.";
+      area.appendChild(empty);
+      return;
+    }
+
+    const wrap = document.createElement("div");
+    wrap.className = "table-wrap";
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const headrow = document.createElement("tr");
+    ["ID", "Aluno", "Livro", "Empréstimo", "Prevista", "Devolução", "Situação", "Ação"].forEach(text => {
+      const th = document.createElement("th");
+      th.textContent = text;
+      headrow.appendChild(th);
+    });
+    thead.appendChild(headrow);
+    const tbody = document.createElement("tbody");
+
+    lista.forEach(loan => {
+      const row = document.createElement("tr");
+      const cells = [
+        valor(loan, "id"),
+        valor(loan.aluno, "nome"),
+        valor(loan.livro, "titulo"),
+        valor(loan, "dataEmprestimo"),
+        valor(loan, "dataPrevistaDevolucao"),
+        valor(loan, "dataDevolucao"),
+        valor(loan, "situacao")
+      ];
+      cells.forEach(text => {
+        const td = document.createElement("td");
+        td.textContent = text == null ? "—" : String(text);
+        row.appendChild(td);
+      });
+
+      const actionCell = document.createElement("td");
+      if (!historico && !loan.dataDevolucao) {
+        const returnButton = document.createElement("button");
+        returnButton.className = "btn btn-small";
+        returnButton.textContent = "Devolver";
+        returnButton.addEventListener("click", async () => {
+          if (!confirm("Confirmar devolução deste empréstimo?")) return;
+          try {
+            await api("/emprestimos/" + encodeURIComponent(loan.id) + "/devolucao", { method: "PATCH" });
+            avisar("Devolução registrada.");
+            await carregarEmprestimos();
+          } catch (error) {
+            avisar(error.message, true);
+          }
+        });
+        actionCell.appendChild(returnButton);
+      } else {
+        actionCell.textContent = "—";
+      }
+      row.appendChild(actionCell);
+      tbody.appendChild(row);
+    });
+
+    table.append(thead, tbody);
+    wrap.appendChild(table);
+    area.appendChild(wrap);
+  }
+
+  async function carregarEmprestimos() {
+    try {
+      const [all, active, late] = await Promise.all([
+        api("/emprestimos"),
+        api("/emprestimos/ativos"),
+        api("/emprestimos/atrasados")
+      ]);
+      emprestimos = Array.isArray(all) ? all : [];
+      $("activeCount").textContent = Array.isArray(active) ? active.length : "—";
+      $("lateCount").textContent = Array.isArray(late) ? late.length : "—";
+      $("loanCount").textContent = emprestimos.length;
+      montarTabelaLoans(emprestimos.filter(loan => !loan.dataDevolucao), $("loansTable"));
+    } catch (error) {
+      $("loansTable").textContent = "";
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = error.message;
+      $("loansTable").appendChild(empty);
+      avisar(error.message, true);
+    }
+  }
+
+  async function carregarHistorico() {
+    try {
+      const all = await api("/emprestimos");
+      montarTabelaLoans(Array.isArray(all) ? all : [], $("historyTable"), true);
+    } catch (error) {
+      $("historyTable").textContent = "";
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = error.message;
+      $("historyTable").appendChild(empty);
+      avisar(error.message, true);
+    }
+  }
+
+  $("loanForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const due = $("loanDueDate").value;
+    if (!due || due <= new Date().toISOString().slice(0, 10)) {
+      avisar("A data prevista de devolução precisa ser futura.", true);
+      return;
+    }
+
+    const payload = {
+      alunoId: Number($("loanStudentId").value),
+      livroId: Number($("loanBookId").value),
+      dataPrevistaDevolucao: due
+    };
+
+    try {
+      await api("/emprestimos", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      avisar("Empréstimo registrado.");
+      $("loanForm").reset();
+      await carregarEmprestimos();
+    } catch (error) {
+      avisar(error.message, true);
+    }
+  });
+
+  $("refreshLoans").addEventListener("click", carregarEmprestimos);
+  $("refreshHistory").addEventListener("click", carregarHistorico);
+
+  $("userForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const login = $("newUserLogin").value.trim();
+    const senha = $("newUserPassword").value;
+
+    try {
+      await api("/usuarios", {
+        method: "POST",
+        body: JSON.stringify({ login, senha })
+      });
+      avisar("Usuário cadastrado com sucesso.");
+      $("userForm").reset();
+    } catch (error) {
+      avisar(error.message, true);
+    }
+  });
+
+  $("search").addEventListener("input", renderCatalogo);
+
+  // Se já houver token na sessão, tenta carregar o catálogo.
+  // Se não houver, mostra a tela de login.
+  if (token) {
+    showApp();
+    carregarLivros();
+  } else {
+    showLogin();
+  }
+})();
+</script>
+</body>
+</html>
