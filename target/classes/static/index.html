@@ -6,165 +6,125 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#263c2e">
 <title>Biblioteca Pontilhada</title>
-<link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --green:#263c2e;
-  --green2:#405b43;
-  --cream:#f6f3eb;
-  --paper:#fffdf8;
-  --beige:#e5ddcd;
-  --wood:#b78a61;
-  --text:#292c25;
-  --muted:#7e8277;
-  --red:#a5463d;
-  --shadow:0 8px 28px rgba(38,60,46,.07);
-}
-* { box-sizing:border-box }
-body { margin:0;background:var(--cream);color:var(--text);font:14px "DM Sans",sans-serif }
-button,input,select,textarea { font:inherit }
-button { cursor:pointer }
-button:disabled { opacity:.55;cursor:not-allowed }
-input,select,textarea {
-  width:100%;padding:12px 13px;border:1px solid var(--beige);
-  border-radius:10px;background:white;color:var(--text);outline:none
-}
-input:focus,select:focus,textarea:focus { border-color:var(--green2);box-shadow:0 0 0 3px #405b4318 }
-label { display:grid;gap:7px;color:var(--green);font-weight:600 }
-h1,h2,h3 { font-family:"Playfair Display",Georgia,serif;color:var(--green) }
-h1 { font-size:clamp(27px,3vw,39px);margin:0 0 7px }
-h2 { font-size:26px }
-p { line-height:1.6 }
-small,.muted { color:var(--muted) }
-.hidden { display:none!important }
-
-.sidebar {
-  position:fixed;inset:0 auto 0 0;width:240px;padding:27px 16px;
-  display:flex;flex-direction:column;background:var(--green);color:#fff;
-  overflow-y:auto;z-index:5
-}
-.brand { display:flex;align-items:center;gap:12px;padding:0 9px 32px;color:white;text-decoration:none;font:700 23px "Playfair Display",serif }
-.brand-icon { padding:8px 11px;border-radius:12px 12px 12px 4px;background:#e7c99e;color:var(--green) }
-.brand small { display:block;color:#c9d2c3;font:10px "DM Sans",sans-serif;letter-spacing:3px;margin-top:3px }
-.menu-label { margin:19px 10px 9px;color:#a9b9a8;font-size:10px;font-weight:700;letter-spacing:1.5px }
-.nav-item { display:flex;align-items:center;gap:12px;width:100%;padding:13px;border:0;border-radius:10px;background:transparent;color:#e2e8dd;text-align:left;margin:3px 0 }
-.nav-item:hover { background:#ffffff13 }
-.nav-item.active { background:#e7c99e;color:var(--green);font-weight:700 }
-.sidebar-bottom { margin-top:auto;padding:15px 9px 0;color:#a9b9a8;font-size:11px;line-height:1.7 }
-
-main { margin-left:240px;padding:32px clamp(17px,4vw,48px);min-height:100vh }
-.topbar { display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:27px }
-.eyebrow { color:var(--wood);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:9px }
-.search { width:min(100%,320px);background:var(--paper) }
-.btn { display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:11px 16px;background:var(--green);color:white;font-weight:600 }
-.btn:hover { background:var(--green2) }
-.btn-light { border:1px solid var(--beige);background:var(--paper);color:var(--green) }
-.btn-light:hover { background:#eee9de }
-.btn-danger { background:#a5463d }
-.btn-small { padding:8px 11px;font-size:12px }
-.hero { display:flex;justify-content:space-between;align-items:center;gap:18px;padding:30px;border-radius:19px;background:var(--green);color:white;margin-bottom:30px;overflow:hidden }
-.hero .eyebrow { color:#d7c19f }
-.hero h2 { margin:9px 0;color:#f8edda;font-size:clamp(25px,3vw,35px) }
-.hero p { max-width:510px;color:#d7dfd2 }
-.hero-mark { color:#e7c99e;font:110px "Playfair Display",serif;padding:0 22px;line-height:1 }
-.section-head { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0 17px }
-.section-head h2 { margin:0 }
-.page { display:none }
-.page.active { display:block }
-.book-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:19px }
-.book-card { min-width:0;padding:11px;border:1px solid #e9e3d8;border-radius:15px;background:var(--paper);box-shadow:var(--shadow);transition:transform .2s }
-.book-card:hover { transform:translateY(-4px) }
-.cover-wrap { height:215px;border-radius:8px;overflow:hidden;background:#e8e0d1;display:grid;place-items:center }
-.cover-wrap img { width:100%;height:100%;object-fit:cover }
-.cover-placeholder { height:100%;width:100%;display:grid;place-items:center;padding:15px;text-align:center;background:var(--green);color:#f8edda;font:700 19px "Playfair Display",serif;overflow-wrap:anywhere }
-.book-card h3 { margin:13px 0 5px;font:700 14px "DM Sans",sans-serif;line-height:1.45 }
-.book-card p { margin:0 0 10px;color:var(--muted);font-size:12px }
-.pill { display:inline-block;border-radius:30px;padding:5px 9px;background:#e5eddf;color:#38563a;font-size:10px;font-weight:700 }
-.card-actions { display:flex;flex-wrap:wrap;gap:6px;margin-top:12px }
-.panel,.stat,.form-card { border:1px solid #e9e3d8;border-radius:15px;background:var(--paper);box-shadow:var(--shadow);padding:22px;margin-bottom:20px }
-.stats { display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px }
-.stat span { color:var(--muted);font-size:12px }
-.stat strong { display:block;margin-top:8px;color:var(--green);font:700 29px "Playfair Display",serif }
-.form-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px }
-.form-grid .full { grid-column:1/-1 }
-.form-actions { display:flex;flex-wrap:wrap;gap:9px;margin-top:17px }
-.table-wrap { overflow:auto;border:1px solid #e9e3d8;border-radius:13px;background:var(--paper) }
-table { width:100%;border-collapse:collapse;min-width:610px }
-th,td { padding:13px 15px;border-bottom:1px solid #eee9df;text-align:left;vertical-align:top }
-th { background:#eeeadf;color:var(--green);font-size:12px }
-td { font-size:13px }
-.empty { padding:30px;text-align:center;border:1px dashed var(--beige);border-radius:14px;background:var(--paper);color:var(--muted);line-height:1.7 }
-.notice { display:none;position:fixed;right:20px;bottom:20px;z-index:20;max-width:min(420px,calc(100vw - 40px));padding:15px 19px;background:var(--green);color:white;border-radius:12px;box-shadow:0 8px 28px #0002;line-height:1.5;white-space:pre-line }
-.notice.error { background:#8f3832 }
-.login-screen { min-height:100vh;display:grid;place-items:center;padding:22px;background:var(--cream) }
-.login-card { width:min(100%,430px);padding:30px;border:1px solid var(--beige);border-radius:20px;background:var(--paper);box-shadow:var(--shadow) }
-.login-brand { font:700 28px "Playfair Display",serif;color:var(--green);margin-bottom:8px }
-.login-card form { display:grid;gap:15px;margin-top:22px }
-.login-card .btn { width:100% }
-.link-button { border:0;background:none;color:var(--green);text-decoration:underline;padding:10px }
-hr { border:0;border-top:1px solid #eee9df;margin:22px 0 }
-
-@media(max-width:760px) {
-  .sidebar { width:68px;padding:18px 8px }
-  .brand { justify-content:center;padding:0 0 25px }
-  .brand>span:last-child,.menu-label,.nav-item span,.sidebar-bottom { display:none }
-  .nav-item { justify-content:center;padding:14px 4px;font-size:18px }
-  main { margin-left:68px;padding:22px 13px }
-  .hero { padding:22px }
-  .hero-mark { display:none }
-  .book-grid { grid-template-columns:repeat(2,minmax(0,1fr));gap:12px }
-  .cover-wrap { height:190px }
-  .form-grid { grid-template-columns:1fr }
-  .form-grid .full { grid-column:auto }
+:root{--green:#263c2e;--green2:#405b43;--cream:#f6f3eb;--paper:#fffdf8;--beige:#e5ddcd;--wood:#b78a61;--text:#292c25;--muted:#7e8277;--red:#a5463d;--shadow:0 8px 28px #263c2e12}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--text);font:14px "DM Sans",sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:wait}
+input,select{width:100%;padding:12px;border:1px solid var(--beige);border-radius:9px;background:white;outline:none}
+input:focus,select:focus{border-color:var(--green2)}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;color:var(--green)}
+h1{font-size:clamp(26px,3vw,38px);margin:0 0 8px}
+h2{font-size:25px}h3{font-size:19px}
+p{line-height:1.6}
+small,.muted{color:var(--muted)}
+.hidden{display:none!important}
+label{display:grid;gap:7px;color:var(--green);font-weight:600}
+.sidebar{position:fixed;inset:0 auto 0 0;width:235px;padding:25px 15px;background:var(--green);color:white;display:flex;flex-direction:column;overflow:auto;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;padding:0 8px 28px;color:white;text-decoration:none;font:700 23px "Playfair Display",serif}
+.brand-icon{padding:9px 12px;border-radius:12px 12px 12px 4px;background:#e7c99e;color:var(--green)}
+.brand small{display:block;color:#c9d2c3;font:10px "DM Sans",sans-serif;letter-spacing:3px;margin-top:4px}
+.menu-label{margin:18px 10px 8px;color:#a9b9a8;font-size:10px;font-weight:700;letter-spacing:1.5px}
+.nav-item{display:flex;align-items:center;gap:12px;width:100%;padding:13px;border:0;border-radius:10px;background:transparent;color:#e2e8dd;text-align:left;margin:3px 0}
+.nav-item:hover{background:#ffffff15}
+.nav-item.active{background:#e7c99e;color:var(--green);font-weight:700}
+.sidebar-bottom{margin-top:auto;padding:20px 9px 0;color:#c9d2c3;font-size:11px}
+main{margin-left:235px;padding:30px clamp(16px,4vw,45px);min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:25px}
+.eyebrow{color:var(--wood);font-size:10px;font-weight:700;letter-spacing:2px;margin-bottom:9px}
+.search{max-width:320px;background:var(--paper)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:9px;padding:11px 15px;background:var(--green);color:white;font-weight:600}
+.btn:hover{background:var(--green2)}
+.btn-light{border:1px solid var(--beige);background:var(--paper);color:var(--green)}
+.btn-danger{background:var(--red)}
+.btn-small{padding:7px 10px;font-size:12px}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:28px;border-radius:18px;background:var(--green);color:white;margin-bottom:27px}
+.hero .eyebrow{color:#d7c19f}
+.hero h2{margin:8px 0;color:#f8edda;font-size:clamp(25px,3vw,35px)}
+.hero p{max-width:490px;color:#d7dfd2}
+.hero-mark{color:#e7c99e;font:110px Georgia,serif;padding:0 20px}
+.page{display:none}.page.active{display:block}
+.section-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:24px 0 17px}
+.section-head h2{margin:0}
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:18px}
+.book-card{min-width:0;padding:11px;border:1px solid #e9e3d8;border-radius:14px;background:var(--paper);box-shadow:var(--shadow);transition:transform .15s}
+.book-card:hover{transform:translateY(-2px)}
+.cover-wrap{height:215px;border-radius:7px;overflow:hidden;background:#e8e0d1;display:grid;place-items:center}
+.cover-wrap img{width:100%;height:100%;object-fit:cover}
+.cover-placeholder{height:100%;width:100%;display:grid;place-items:center;padding:15px;text-align:center;background:var(--green);color:#f8edda;font:700 19px "Playfair Display",serif;overflow-wrap:anywhere}
+.book-card h3{margin:13px 0 5px;font:700 14px "DM Sans",sans-serif;line-height:1.4}
+.book-card p{margin:0 0 10px;color:var(--muted);font-size:12px}
+.pill{display:inline-block;border-radius:30px;padding:5px 9px;background:#e5eddf;color:#38563a;font-size:10px;font-weight:700}
+.card-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.panel,.stat,.form-card{border:1px solid #e9e3d8;border-radius:14px;background:var(--paper);box-shadow:var(--shadow);padding:21px;margin-bottom:19px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px;margin-bottom:22px}
+.stat span{color:var(--muted);font-size:12px}
+.stat strong{display:block;margin-top:8px;color:var(--green);font:700 29px "Playfair Display",serif}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.form-grid .full{grid-column:1/-1}
+.form-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.table-wrap{overflow:auto;border:1px solid #e9e3d8;border-radius:12px;background:var(--paper)}
+table{width:100%;border-collapse:collapse;min-width:590px}
+th,td{padding:12px 14px;border-bottom:1px solid #eee9df;text-align:left;vertical-align:top}
+th{background:#eeeadf;color:var(--green);font-size:12px}
+td{font-size:13px}
+.empty{padding:28px;text-align:center;border:1px dashed var(--beige);border-radius:13px;background:var(--paper);color:var(--muted);line-height:1.7}
+.notice{display:none;position:fixed;right:20px;bottom:20px;z-index:20;max-width:min(430px,calc(100vw - 40px));padding:15px 18px;background:var(--green);color:white;border-radius:11px;box-shadow:0 8px 28px #0002;line-height:1.5;white-space:pre-line}
+.notice.error{background:#8f3832}
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:22px;background:var(--cream)}
+.login-card{width:min(100%,430px);padding:30px;border:1px solid var(--beige);border-radius:19px;background:var(--paper);box-shadow:var(--shadow)}
+.login-brand{font:700 28px "Playfair Display",serif;color:var(--green);margin-bottom:8px}
+.login-card form{display:grid;gap:15px;margin-top:22px}
+.login-card .btn{width:100%}
+.link-button{border:0;background:none;color:var(--green);text-decoration:underline;padding:10px}
+.date-text{font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(max-width:760px){
+ .sidebar{width:67px;padding:17px 7px}
+ .brand{justify-content:center;padding:0 0 24px}
+ .brand>span:last-child,.menu-label,.nav-item span,.sidebar-bottom{display:none}
+ .nav-item{justify-content:center;padding:14px 4px;font-size:18px}
+ main{margin-left:67px;padding:21px 12px}
+ .hero{padding:21px}.hero-mark{display:none}
+ .book-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+ .cover-wrap{height:185px}
+ .form-grid{grid-template-columns:1fr}
+ .form-grid .full{grid-column:auto}
+ .topbar .search{max-width:none}
 }
 </style>
 </head>
 <body>
-
 <div id="loginScreen" class="login-screen hidden">
   <div class="login-card">
     <div class="login-brand">pontilhada <span style="color:var(--wood)">p.</span></div>
     <div class="eyebrow">BIBLIOTECA</div>
     <h2 id="authTitle">Bem-vindo de volta</h2>
-    <p class="muted" id="authDescription">Entre para consultar o acervo da biblioteca.</p>
-
+    <p class="muted" id="authDescription">Entre para acessar o acervo.</p>
     <form id="authForm">
-      <label>Login
-        <input id="authLogin" required autocomplete="username" placeholder="Seu login">
-      </label>
-      <label>Senha
-        <input id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="Sua senha">
-      </label>
+      <label>Login<input id="authLogin" required autocomplete="username"></label>
+      <label>Senha<input id="authPassword" type="password" required minlength="6" autocomplete="current-password"></label>
       <button id="authSubmit" class="btn" type="submit">Entrar</button>
     </form>
     <button id="toggleAuth" class="link-button" type="button">Primeiro acesso? Criar usuário</button>
-    <p class="muted" style="font-size:11px">A autenticação utiliza o backend da aplicação.</p>
   </div>
 </div>
 
 <div id="app" class="hidden">
   <aside class="sidebar">
-    <a href="#" class="brand" data-page="catalogo">
-      <span class="brand-icon">p.</span>
-      <span>pontilhada<small>BIBLIOTECA</small></span>
-    </a>
-
+    <a href="#" class="brand" data-page="catalogo"><span class="brand-icon">p.</span><span>pontilhada<small>BIBLIOTECA</small></span></a>
     <p class="menu-label">EXPLORAR</p>
     <button class="nav-item active" data-page="catalogo">⌕ <span>Catálogo</span></button>
     <button class="nav-item" data-page="emprestimos">↗ <span>Empréstimos</span></button>
     <button class="nav-item" data-page="historico">◷ <span>Histórico</span></button>
-
     <p class="menu-label">GERENCIAMENTO</p>
     <button class="nav-item" data-page="livros">▤ <span>Livros</span></button>
-    <button class="nav-item" data-page="usuarios">♙ <span>Usuários</span></button>
-
-    <div class="sidebar-bottom">
-      Um lugar para cada história.
-      <br><button id="logout" class="link-button" style="color:#fff;padding-left:0">Sair da conta</button>
-    </div>
+    <button class="nav-item" data-page="alunos">♙ <span>Alunos</span></button>
+    <button class="nav-item" data-page="usuarios">⚙ <span>Usuários</span></button>
+    <div class="sidebar-bottom">Um lugar para cada história.<br><button id="logout" class="link-button" style="color:white;padding-left:0">Sair da conta</button></div>
   </aside>
 
   <main>
@@ -174,114 +134,94 @@ hr { border:0;border-top:1px solid #eee9df;margin:22px 0 }
         <h1 id="pageTitle">Encontre sua próxima história.</h1>
         <div class="muted" id="pageSubtitle">Explore os livros cadastrados no acervo.</div>
       </div>
-      <input id="search" class="search" type="search" placeholder="⌕ Buscar título ou autor...">
+      <input id="search" class="search" type="search" placeholder="⌕ Buscar título ou autor..." aria-label="Pesquisar">
     </header>
 
     <section id="catalogo" class="page active">
-      <div class="hero">
-        <div>
-          <div class="eyebrow">SEU PRÓXIMO CAPÍTULO COMEÇA AQUI</div>
-          <h2>Entre páginas,<br>encontre novos mundos.</h2>
-          <p>Explore os livros da Biblioteca Pontilhada e encontre sua próxima leitura.</p>
-          <button class="btn btn-light" id="exploreButton">Explorar catálogo ↓</button>
-        </div>
-        <div class="hero-mark">“</div>
-      </div>
-      <div class="section-head">
-        <h2>Na estante</h2>
-        <span class="muted" id="bookCount">Carregando...</span>
-      </div>
+      <div class="hero"><div><div class="eyebrow">SEU PRÓXIMO CAPÍTULO COMEÇA AQUI</div><h2>Entre páginas,<br>encontre novos mundos.</h2><p>Explore os livros da Biblioteca Pontilhada e encontre sua próxima leitura.</p><button class="btn btn-light" id="exploreButton">Explorar catálogo ↓</button></div><div class="hero-mark">“</div></div>
+      <div class="section-head"><h2>Na estante</h2><span id="bookCount" class="muted">Carregando...</span></div>
       <div id="books" class="book-grid"></div>
     </section>
 
     <section id="livros" class="page">
-      <div class="section-head">
-        <div><h2>Gerenciar acervo</h2><p class="muted">Cadastre, edite e remova livros do banco de dados.</p></div>
-        <button id="newBook" class="btn">＋ Novo livro</button>
-      </div>
-
+      <div class="section-head"><div><h2>Gerenciar acervo</h2><p class="muted">Cadastre, edite, exclua e adicione capas aos livros.</p></div><button id="newBook" class="btn">＋ Novo livro</button></div>
       <div id="bookFormCard" class="form-card hidden">
         <h3 id="bookFormTitle">Cadastrar livro</h3>
-        <form id="bookForm">
-          <input id="bookId" type="hidden">
+        <form id="bookForm"><input id="bookId" type="hidden">
           <div class="form-grid">
-            <label>Título
-              <input id="bookTitle" required maxlength="255" placeholder="Título do livro">
-            </label>
-            <label>Autor
-              <input id="bookAuthor" required maxlength="255" placeholder="Nome do autor">
-            </label>
-            <label class="full">Ano de publicação
-              <input id="bookYear" type="number" required min="1" placeholder="Ex.: 2020">
-            </label>
+            <label>Título<input id="bookTitle" required maxlength="255"></label>
+            <label>Autor<input id="bookAuthor" required maxlength="255"></label>
+            <label class="full">Ano de publicação<input id="bookYear" type="number" required min="1" max="9999" placeholder="Ex.: 2020"></label>
           </div>
-          <div class="form-actions">
-            <button class="btn" type="submit">Salvar livro</button>
-            <button class="btn btn-light" id="cancelBook" type="button">Cancelar</button>
-          </div>
+          <div class="form-actions"><button class="btn" type="submit">Salvar livro</button><button class="btn btn-light" id="cancelBook" type="button">Cancelar</button></div>
         </form>
       </div>
       <div id="manageBooks" class="book-grid"></div>
     </section>
 
-    <section id="emprestimos" class="page">
-      <div class="section-head">
-        <div><h2>Empréstimos</h2><p class="muted">Consulte empréstimos registrados no backend.</p></div>
-        <button class="btn" id="refreshLoans">↻ Atualizar</button>
+    <section id="alunos" class="page">
+      <div class="section-head"><div><h2>Alunos</h2><p class="muted">Cadastre e gerencie os alunos que podem realizar empréstimos.</p></div><button id="newStudent" class="btn">＋ Novo aluno</button></div>
+      <div id="studentFormCard" class="form-card hidden">
+        <h3 id="studentFormTitle">Cadastrar aluno</h3>
+        <form id="studentForm"><input id="studentId" type="hidden">
+          <div class="form-grid">
+            <label>Nome completo<input id="studentName" required maxlength="255" autocomplete="name"></label>
+            <label>E-mail<input id="studentEmail" type="email" required maxlength="255" autocomplete="email"></label>
+          </div>
+          <div class="form-actions"><button class="btn" type="submit">Salvar aluno</button><button class="btn btn-light" id="cancelStudent" type="button">Cancelar</button></div>
+        </form>
       </div>
+      <div class="section-head"><h2>Alunos cadastrados</h2><button id="refreshStudents" class="btn btn-light">↻ Atualizar</button></div>
+      <div id="studentsSummary" class="muted" style="margin-bottom:12px"></div>
+      <div id="studentsTable"></div>
+    </section>
 
+    <section id="emprestimos" class="page">
+      <div class="section-head"><div><h2>Empréstimos</h2><p class="muted">Registre e acompanhe as retiradas de livros.</p></div><button id="refreshLoans" class="btn btn-light">↻ Atualizar</button></div>
       <div class="stats">
         <div class="stat"><span>Empréstimos ativos</span><strong id="activeCount">—</strong></div>
         <div class="stat"><span>Em atraso</span><strong id="lateCount">—</strong></div>
         <div class="stat"><span>Total registrado</span><strong id="loanCount">—</strong></div>
       </div>
-
       <div class="panel">
         <h3>Registrar empréstimo</h3>
-        <p class="muted">Informe os IDs que já existem no sistema. A API exige alunoId, livroId e data prevista de devolução.</p>
+        <p class="muted">Selecione o aluno, o livro e a data prevista para devolução.</p>
         <form id="loanForm">
           <div class="form-grid">
-            <label>ID do aluno
-              <input id="loanStudentId" type="number" min="1" required>
-            </label>
-            <label>ID do livro
-              <input id="loanBookId" type="number" min="1" required>
-            </label>
-            <label class="full">Data prevista de devolução
-              <input id="loanDueDate" type="date" required>
-            </label>
+            <label>Aluno<select id="loanStudentId" required><option value="">Selecione um aluno</option></select></label>
+            <label>Livro<select id="loanBookId" required><option value="">Selecione um livro</option></select></label>
+            <label class="full">Data prevista de devolução (AAAA-MM-DD)
+            <input
+              id="loanDueDate"
+              type="text"
+              placeholder="AAAA-MM-DD"
+              pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+              maxlength="10"
+              inputmode="numeric"
+              required
+            >
+          </label>
           </div>
           <div class="form-actions"><button class="btn" type="submit">Registrar empréstimo</button></div>
         </form>
       </div>
-
-      <div class="section-head"><h2>Registros</h2></div>
+      <div class="section-head"><h2>Empréstimos ativos</h2></div>
       <div id="loansTable"></div>
     </section>
 
     <section id="historico" class="page">
-      <div class="section-head">
-        <div><h2>Histórico</h2><p class="muted">Todos os empréstimos retornados pela API.</p></div>
-        <button class="btn" id="refreshHistory">↻ Atualizar</button>
-      </div>
+      <div class="section-head"><div><h2>Histórico</h2><p class="muted">Consulte os empréstimos e as devoluções registrados.</p></div><button id="refreshHistory" class="btn btn-light">↻ Atualizar</button></div>
       <div id="historyTable"></div>
     </section>
 
     <section id="usuarios" class="page">
-      <div class="section-head">
-        <div><h2>Usuários</h2><p class="muted">Cadastre um usuário usando a API existente.</p></div>
-      </div>
+      <div class="section-head"><div><h2>Usuários</h2><p class="muted">Crie acessos para o sistema da biblioteca.</p></div></div>
       <div class="form-card">
         <h3>Cadastrar usuário</h3>
-        <p class="muted">O backend aceita login e senha. Não existe aqui uma rota conhecida para listar, editar ou excluir usuários.</p>
         <form id="userForm">
           <div class="form-grid">
-            <label>Login
-              <input id="newUserLogin" required autocomplete="username">
-            </label>
-            <label>Senha
-              <input id="newUserPassword" type="password" required minlength="6" autocomplete="new-password">
-            </label>
+            <label>Login<input id="newUserLogin" required autocomplete="username"></label>
+            <label>Senha<input id="newUserPassword" type="password" required minlength="6" autocomplete="new-password"></label>
           </div>
           <div class="form-actions"><button class="btn" type="submit">Cadastrar usuário</button></div>
         </form>
@@ -289,545 +229,762 @@ hr { border:0;border-top:1px solid #eee9df;margin:22px 0 }
     </section>
   </main>
 </div>
-
-<div id="notice" class="notice" role="status"></div>
+<div id="notice" class="notice" role="status" aria-live="polite"></div>
 
 <script>
 (() => {
-  "use strict";
+"use strict";
 
-  const $ = id => document.getElementById(id);
-  let token = sessionStorage.getItem("bibliotecaToken") || "";
-  let livros = [];
-  let emprestimos = [];
-  let authMode = "login";
-  let noticeTimer;
+const $ = id => document.getElementById(id);
+let token = sessionStorage.getItem("bibliotecaToken") || "";
+let livros = [], alunos = [], emprestimos = [], emprestimosAtivos = [];
+let authMode = "login", noticeTimer;
 
-  function avisar(message, error = false) {
-    const el = $("notice");
-    el.textContent = message;
-    el.classList.toggle("error", error);
-    el.style.display = "block";
-    clearTimeout(noticeTimer);
-    noticeTimer = setTimeout(() => el.style.display = "none", 5000);
+function avisar(message, error = false) {
+  const el = $("notice");
+  el.textContent = message;
+  el.classList.toggle("error", error);
+  el.style.display = "block";
+  clearTimeout(noticeTimer);
+  noticeTimer = setTimeout(() => el.style.display = "none", 5000);
+}
+
+// Gera a data local sem conversão UTC.
+// O valor usado no input e enviado ao Spring é sempre AAAA-MM-DD.
+function hojeISO() {
+  const d = new Date();
+  const ano = d.getFullYear();
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  const dia = String(d.getDate()).padStart(2, "0");
+  return `${ano}-${mes}-${dia}`;
+}
+
+function dataISO(valor) {
+  if (!valor) return "—";
+  if (Array.isArray(valor) && valor.length >= 3) {
+    return `${valor[0]}-${String(valor[1]).padStart(2,"0")}-${String(valor[2]).padStart(2,"0")}`;
+  }
+  const s = String(valor);
+  const match = s.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (match) return match[1];
+  return s;
+}
+
+async function api(path, options = {}) {
+  const headers = new Headers(options.headers || {});
+  if (token) headers.set("Authorization", "Bearer " + token);
+  if (options.body && !(options.body instanceof FormData) && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
   }
 
-  async function api(path, options = {}) {
-    const headers = new Headers(options.headers || {});
-    if (token) headers.set("Authorization", "Bearer " + token);
-
-    if (options.body && !(options.body instanceof FormData) && !headers.has("Content-Type")) {
-      headers.set("Content-Type", "application/json");
-    }
-
-    const response = await fetch(path, { ...options, headers });
-
-    if (response.status === 401 || response.status === 403) {
-      throw new Error("Acesso negado (HTTP " + response.status + "). Confira se você entrou com a conta correta.");
-    }
-
-    if (!response.ok) {
-      let details = "";
-      try { details = (await response.text()).slice(0, 250); } catch {}
-      throw new Error("Erro HTTP " + response.status + " em " + path + (details ? ": " + details : ""));
-    }
-
-    if (response.status === 204) return null;
-    const text = await response.text();
-    if (!text) return null;
-    try { return JSON.parse(text); } catch { return text; }
+  const response = await fetch(path, {...options, headers});
+  if (response.status === 401 || response.status === 403) {
+    throw new Error(`Acesso negado (HTTP ${response.status}). Confira o login e as permissões.`);
   }
-
-  function setAuthMode(mode) {
-    authMode = mode;
-    $("authTitle").textContent = mode === "login" ? "Bem-vindo de volta" : "Crie seu acesso";
-    $("authDescription").textContent = mode === "login"
-      ? "Entre para consultar o acervo da biblioteca."
-      : "Cadastre seu login no sistema da biblioteca.";
-    $("authSubmit").textContent = mode === "login" ? "Entrar" : "Criar usuário";
-    $("toggleAuth").textContent = mode === "login"
-      ? "Primeiro acesso? Criar usuário"
-      : "Já tem conta? Entrar";
-    $("authPassword").autocomplete = mode === "login" ? "current-password" : "new-password";
-  }
-
-  function showApp() {
-    $("loginScreen").classList.add("hidden");
-    $("app").classList.remove("hidden");
-  }
-
-  function showLogin() {
-    $("app").classList.add("hidden");
-    $("loginScreen").classList.remove("hidden");
-  }
-
-  $("toggleAuth").addEventListener("click", () => {
-    setAuthMode(authMode === "login" ? "register" : "login");
-  });
-
-  $("authForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    const login = $("authLogin").value.trim();
-    const senha = $("authPassword").value;
-    const button = $("authSubmit");
-    button.disabled = true;
-
+  if (!response.ok) {
+    let details = "";
     try {
-      if (authMode === "register") {
-        await api("/usuarios", {
-          method: "POST",
-          body: JSON.stringify({ login, senha })
-        });
-        avisar("Usuário cadastrado. Agora entre com seu login e senha.");
-        setAuthMode("login");
-        $("authPassword").value = "";
-      } else {
-        const result = await fetch("/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ login, senha })
-        });
-
-        if (!result.ok) {
-          throw new Error("Login não autorizado. Confira as credenciais.");
-        }
-
-        const data = await result.json();
-        if (!data.token) throw new Error("A resposta do login não contém o token.");
-
-        token = data.token;
-        sessionStorage.setItem("bibliotecaToken", token);
-        showApp();
-        await carregarLivros();
-        carregarEmprestimos();
+      const body = await response.text();
+      if (body) {
+        try {
+          const json = JSON.parse(body);
+          details = json.message || json.mensagem || json.error || body;
+        } catch { details = body; }
       }
-    } catch (error) {
-      avisar(error.message || "Não foi possível concluir a operação.", true);
-    } finally {
-      button.disabled = false;
+    } catch {}
+    if (response.status === 409) {
+      throw new Error("Não foi possível concluir: o livro pode já estar emprestado. " + details);
     }
-  });
-
-  $("logout").addEventListener("click", () => {
-    token = "";
-    sessionStorage.removeItem("bibliotecaToken");
-    livros = [];
-    emprestimos = [];
-    showLogin();
-  });
-
-  function navegar(page) {
-    document.querySelectorAll(".page").forEach(el => el.classList.toggle("active", el.id === page));
-    document.querySelectorAll(".nav-item").forEach(el => el.classList.toggle("active", el.dataset.page === page));
-    const meta = {
-      catalogo: ["Encontre sua próxima história.", "Explore os livros cadastrados no acervo."],
-      livros: ["Gerenciar acervo", "Cadastre, edite e remova livros."],
-      emprestimos: ["Empréstimos", "Consulte e registre empréstimos."],
-      historico: ["Histórico", "Consulte as movimentações registradas."],
-      usuarios: ["Usuários", "Cadastro de usuários da biblioteca."]
-    };
-    $("pageTitle").textContent = meta[page][0];
-    $("pageSubtitle").textContent = meta[page][1];
-    $("search").classList.toggle("hidden", page !== "catalogo");
-    if (page === "livros") renderGerenciarLivros();
-    if (page === "emprestimos") carregarEmprestimos();
-    if (page === "historico") carregarHistorico();
+    throw new Error(`Erro HTTP ${response.status} em ${path}${details ? ": " + details.slice(0,300) : ""}`);
   }
+  if (response.status === 204) return null;
+  const text = await response.text();
+  if (!text) return null;
+  try { return JSON.parse(text); } catch { return text; }
+}
 
-  document.querySelectorAll("[data-page]").forEach(el => {
-    el.addEventListener("click", event => {
-      event.preventDefault();
-      navegar(el.dataset.page);
-    });
-  });
+function setAuthMode(mode) {
+  authMode = mode;
+  $("authTitle").textContent = mode === "login" ? "Bem-vindo de volta" : "Crie seu acesso";
+  $("authDescription").textContent = mode === "login"
+    ? "Entre para acessar o acervo."
+    : "Cadastre seu login no sistema da biblioteca.";
+  $("authSubmit").textContent = mode === "login" ? "Entrar" : "Criar usuário";
+  $("toggleAuth").textContent = mode === "login"
+    ? "Primeiro acesso? Criar usuário"
+    : "Já tem conta? Entrar";
+  $("authPassword").autocomplete = mode === "login" ? "current-password" : "new-password";
+}
 
-  $("exploreButton").addEventListener("click", () => {
-    $("books").scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+function showApp() {
+  $("loginScreen").classList.add("hidden");
+  $("app").classList.remove("hidden");
+}
+function showLogin() {
+  $("app").classList.add("hidden");
+  $("loginScreen").classList.remove("hidden");
+}
 
-  function fallbackCapa(titulo, id) {
-    const colors = ["#344d3a", "#79513e", "#5c5269", "#8a4c3e", "#4b6271"];
-    const wrap = document.createElement("div");
-    wrap.className = "cover-placeholder";
-    wrap.style.background = colors[Math.abs(Number(id) || 0) % colors.length];
-    wrap.textContent = titulo || "Livro";
-    return wrap;
-  }
+$("toggleAuth").addEventListener("click", () =>
+  setAuthMode(authMode === "login" ? "register" : "login")
+);
 
-  async function carregarCapa(livro, wrap) {
-    if (!livro.id) return;
-    try {
-      const response = await fetch("/livros/" + encodeURIComponent(livro.id) + "/capa", {
-        headers: { Authorization: "Bearer " + token }
+$("authForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const login = $("authLogin").value.trim();
+  const senha = $("authPassword").value;
+  $("authSubmit").disabled = true;
+  try {
+    if (authMode === "register") {
+      // Cadastro público conforme POST /usuarios.
+      await api("/usuarios", {method:"POST", body:JSON.stringify({login, senha})});
+      avisar("Usuário cadastrado. Agora entre com seu login e senha.");
+      setAuthMode("login");
+      $("authPassword").value = "";
+    } else {
+      // Não envia token antigo ao endpoint de login.
+      const response = await fetch("/auth/login", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({login, senha})
       });
-      if (!response.ok) return;
-      const blob = await response.blob();
-      if (!blob.type.startsWith("image/")) return;
-
-      const img = document.createElement("img");
-      img.alt = "Capa de " + (livro.titulo || "livro");
-      img.src = URL.createObjectURL(blob);
-      img.onload = () => URL.revokeObjectURL(img.src);
-      wrap.replaceChildren(img);
-    } catch {
-      // Sem capa: mantém o título estilizado.
-    }
-  }
-
-  function criarCard(livro, gerenciar = false) {
-    const card = document.createElement("article");
-    card.className = "book-card";
-    const cover = document.createElement("div");
-    cover.className = "cover-wrap";
-    cover.appendChild(fallbackCapa(livro.titulo, livro.id));
-
-    const title = document.createElement("h3");
-    title.textContent = livro.titulo || "Sem título";
-    const author = document.createElement("p");
-    author.textContent = livro.autor || "Autor não informado";
-    const year = document.createElement("span");
-    year.className = "pill";
-    year.textContent = livro.anoPublicacao || "Ano não informado";
-    card.append(cover, title, author, year);
-
-    carregarCapa(livro, cover);
-
-    if (gerenciar) {
-      const actions = document.createElement("div");
-      actions.className = "card-actions";
-
-      const edit = document.createElement("button");
-      edit.className = "btn btn-small";
-      edit.textContent = "Editar";
-      edit.addEventListener("click", () => preencherFormularioLivro(livro));
-
-      const del = document.createElement("button");
-      del.className = "btn btn-small btn-danger";
-      del.textContent = "Excluir";
-      del.addEventListener("click", () => excluirLivro(livro));
-
-      const coverButton = document.createElement("button");
-      coverButton.className = "btn btn-small btn-light";
-      coverButton.textContent = "Enviar capa";
-      coverButton.addEventListener("click", () => escolherCapa(livro));
-
-      actions.append(edit, del, coverButton);
-      card.appendChild(actions);
-    }
-    return card;
-  }
-
-  function renderCatalogo() {
-    const area = $("books");
-    area.replaceChildren();
-    const term = $("search").value.trim().toLowerCase();
-    const filtered = livros.filter(book =>
-      (book.titulo || "").toLowerCase().includes(term) ||
-      (book.autor || "").toLowerCase().includes(term)
-    );
-    $("bookCount").textContent = filtered.length + (filtered.length === 1 ? " livro" : " livros");
-
-    if (!filtered.length) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = term
-        ? "Nenhum livro corresponde à sua pesquisa."
-        : "O banco de dados não retornou livros cadastrados.";
-      area.appendChild(empty);
-      return;
-    }
-
-    filtered.forEach(book => area.appendChild(criarCard(book)));
-  }
-
-  async function carregarLivros() {
-    $("books").replaceChildren();
-    const loading = document.createElement("div");
-    loading.className = "empty";
-    loading.textContent = "Buscando livros no banco de dados...";
-    $("books").appendChild(loading);
-
-    try {
-      const data = await api("/livros");
-      if (!Array.isArray(data)) throw new Error("A API /livros não retornou uma lista.");
-      livros = data;
-      renderCatalogo();
-      renderGerenciarLivros();
-    } catch (error) {
-      $("books").replaceChildren();
-      const fail = document.createElement("div");
-      fail.className = "empty";
-      fail.textContent = error.message;
-      $("books").appendChild(fail);
-      avisar(error.message, true);
-    }
-  }
-
-  function renderGerenciarLivros() {
-    const area = $("manageBooks");
-    if (!area) return;
-    area.replaceChildren();
-
-    if (!livros.length) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = "Nenhum livro retornado pela API.";
-      area.appendChild(empty);
-      return;
-    }
-
-    livros.forEach(book => area.appendChild(criarCard(book, true)));
-  }
-
-  function resetBookForm() {
-    $("bookForm").reset();
-    $("bookId").value = "";
-    $("bookFormTitle").textContent = "Cadastrar livro";
-    $("bookFormCard").classList.add("hidden");
-  }
-
-  function preencherFormularioLivro(book) {
-    $("bookId").value = book.id;
-    $("bookTitle").value = book.titulo || "";
-    $("bookAuthor").value = book.autor || "";
-    $("bookYear").value = book.anoPublicacao || "";
-    $("bookFormTitle").textContent = "Editar livro #" + book.id;
-    $("bookFormCard").classList.remove("hidden");
-    $("bookFormCard").scrollIntoView({ behavior: "smooth" });
-  }
-
-  $("newBook").addEventListener("click", () => {
-    resetBookForm();
-    $("bookFormTitle").textContent = "Cadastrar livro";
-    $("bookFormCard").classList.remove("hidden");
-    $("bookFormCard").scrollIntoView({ behavior: "smooth" });
-  });
-
-  $("cancelBook").addEventListener("click", resetBookForm);
-
-  $("bookForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    const id = $("bookId").value;
-    const book = {
-      titulo: $("bookTitle").value.trim(),
-      autor: $("bookAuthor").value.trim(),
-      anoPublicacao: Number($("bookYear").value)
-    };
-
-    try {
-      await api(id ? "/livros/" + encodeURIComponent(id) : "/livros", {
-        method: id ? "PUT" : "POST",
-        body: JSON.stringify(book)
-      });
-      avisar(id ? "Livro atualizado." : "Livro cadastrado.");
-      resetBookForm();
-      await carregarLivros();
-    } catch (error) {
-      avisar(error.message, true);
-    }
-  });
-
-  async function excluirLivro(book) {
-    if (!confirm('Deseja excluir "' + book.titulo + '"?')) return;
-    try {
-      await api("/livros/" + encodeURIComponent(book.id), { method: "DELETE" });
-      avisar("Livro excluído.");
-      await carregarLivros();
-    } catch (error) {
-      avisar(error.message, true);
-    }
-  }
-
-  function escolherCapa(book) {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.addEventListener("change", async () => {
-      const file = input.files && input.files[0];
-      if (!file) return;
-
-      const form = new FormData();
-      form.append("arquivo", file);
-
-      try {
-        await api("/livros/" + encodeURIComponent(book.id) + "/capa", {
-          method: "POST",
-          body: form
-        });
-        avisar("Capa enviada.");
-        await carregarLivros();
-      } catch (error) {
-        avisar(error.message, true);
+      if (!response.ok) {
+        let detail = "";
+        try { detail = await response.text(); } catch {}
+        throw new Error("Não foi possível entrar. Confira as credenciais." + (detail ? " " + detail.slice(0,160) : ""));
       }
-    });
-    input.click();
-  }
-
-  function valor(obj, key) {
-    return obj && obj[key] != null ? obj[key] : "—";
-  }
-
-  function montarTabelaLoans(lista, area, historico = false) {
-    area.replaceChildren();
-    if (!Array.isArray(lista) || !lista.length) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = "Nenhum empréstimo encontrado na API.";
-      area.appendChild(empty);
-      return;
-    }
-
-    const wrap = document.createElement("div");
-    wrap.className = "table-wrap";
-    const table = document.createElement("table");
-    const thead = document.createElement("thead");
-    const headrow = document.createElement("tr");
-    ["ID", "Aluno", "Livro", "Empréstimo", "Prevista", "Devolução", "Situação", "Ação"].forEach(text => {
-      const th = document.createElement("th");
-      th.textContent = text;
-      headrow.appendChild(th);
-    });
-    thead.appendChild(headrow);
-    const tbody = document.createElement("tbody");
-
-    lista.forEach(loan => {
-      const row = document.createElement("tr");
-      const cells = [
-        valor(loan, "id"),
-        valor(loan.aluno, "nome"),
-        valor(loan.livro, "titulo"),
-        valor(loan, "dataEmprestimo"),
-        valor(loan, "dataPrevistaDevolucao"),
-        valor(loan, "dataDevolucao"),
-        valor(loan, "situacao")
-      ];
-      cells.forEach(text => {
-        const td = document.createElement("td");
-        td.textContent = text == null ? "—" : String(text);
-        row.appendChild(td);
-      });
-
-      const actionCell = document.createElement("td");
-      if (!historico && !loan.dataDevolucao) {
-        const returnButton = document.createElement("button");
-        returnButton.className = "btn btn-small";
-        returnButton.textContent = "Devolver";
-        returnButton.addEventListener("click", async () => {
-          if (!confirm("Confirmar devolução deste empréstimo?")) return;
-          try {
-            await api("/emprestimos/" + encodeURIComponent(loan.id) + "/devolucao", { method: "PATCH" });
-            avisar("Devolução registrada.");
-            await carregarEmprestimos();
-          } catch (error) {
-            avisar(error.message, true);
-          }
-        });
-        actionCell.appendChild(returnButton);
-      } else {
-        actionCell.textContent = "—";
-      }
-      row.appendChild(actionCell);
-      tbody.appendChild(row);
-    });
-
-    table.append(thead, tbody);
-    wrap.appendChild(table);
-    area.appendChild(wrap);
-  }
-
-  async function carregarEmprestimos() {
-    try {
-      const [all, active, late] = await Promise.all([
-        api("/emprestimos"),
-        api("/emprestimos/ativos"),
-        api("/emprestimos/atrasados")
-      ]);
-      emprestimos = Array.isArray(all) ? all : [];
-      $("activeCount").textContent = Array.isArray(active) ? active.length : "—";
-      $("lateCount").textContent = Array.isArray(late) ? late.length : "—";
-      $("loanCount").textContent = emprestimos.length;
-      montarTabelaLoans(emprestimos.filter(loan => !loan.dataDevolucao), $("loansTable"));
-    } catch (error) {
-      $("loansTable").textContent = "";
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = error.message;
-      $("loansTable").appendChild(empty);
-      avisar(error.message, true);
-    }
-  }
-
-  async function carregarHistorico() {
-    try {
-      const all = await api("/emprestimos");
-      montarTabelaLoans(Array.isArray(all) ? all : [], $("historyTable"), true);
-    } catch (error) {
-      $("historyTable").textContent = "";
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = error.message;
-      $("historyTable").appendChild(empty);
-      avisar(error.message, true);
-    }
-  }
-
-  $("loanForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    const due = $("loanDueDate").value;
-    if (!due || due <= new Date().toISOString().slice(0, 10)) {
-      avisar("A data prevista de devolução precisa ser futura.", true);
-      return;
-    }
-
-    const payload = {
-      alunoId: Number($("loanStudentId").value),
-      livroId: Number($("loanBookId").value),
-      dataPrevistaDevolucao: due
-    };
-
-    try {
-      await api("/emprestimos", {
-        method: "POST",
-        body: JSON.stringify(payload)
-      });
-      avisar("Empréstimo registrado.");
-      $("loanForm").reset();
+      const data = await response.json();
+      if (!data.token) throw new Error("A resposta do login não contém o token esperado.");
+      token = data.token;
+      sessionStorage.setItem("bibliotecaToken", token);
+      showApp();
+      await Promise.all([carregarLivros(), carregarAlunos()]);
       await carregarEmprestimos();
-    } catch (error) {
-      avisar(error.message, true);
     }
-  });
-
-  $("refreshLoans").addEventListener("click", carregarEmprestimos);
-  $("refreshHistory").addEventListener("click", carregarHistorico);
-
-  $("userForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    const login = $("newUserLogin").value.trim();
-    const senha = $("newUserPassword").value;
-
-    try {
-      await api("/usuarios", {
-        method: "POST",
-        body: JSON.stringify({ login, senha })
-      });
-      avisar("Usuário cadastrado com sucesso.");
-      $("userForm").reset();
-    } catch (error) {
-      avisar(error.message, true);
-    }
-  });
-
-  $("search").addEventListener("input", renderCatalogo);
-
-  // Se já houver token na sessão, tenta carregar o catálogo.
-  // Se não houver, mostra a tela de login.
-  if (token) {
-    showApp();
-    carregarLivros();
-  } else {
-    showLogin();
+  } catch (error) {
+    avisar(error.message || "Não foi possível concluir a operação.", true);
+  } finally {
+    $("authSubmit").disabled = false;
   }
+});
+
+$("logout").addEventListener("click", () => {
+  token = "";
+  sessionStorage.removeItem("bibliotecaToken");
+  showLogin();
+});
+
+const paginas = {
+  catalogo:["Encontre sua próxima história.","Explore os livros cadastrados no acervo."],
+  livros:["Gerenciar acervo","Cadastre, edite e remova livros."],
+  alunos:["Alunos","Gerencie os alunos cadastrados."],
+  emprestimos:["Empréstimos","Registre e acompanhe empréstimos."],
+  historico:["Histórico","Consulte as movimentações registradas."],
+  usuarios:["Usuários","Cadastro de usuários da biblioteca."]
+};
+
+function navegar(page) {
+  document.querySelectorAll(".page").forEach(el => el.classList.toggle("active", el.id === page));
+  document.querySelectorAll(".nav-item").forEach(el => el.classList.toggle("active", el.dataset.page === page));
+  $("pageTitle").textContent = paginas[page][0];
+  $("pageSubtitle").textContent = paginas[page][1];
+
+  // A pesquisa também funciona na lista geral de alunos.
+  const pesquisavel = page === "catalogo" || page === "alunos";
+  $("search").classList.toggle("hidden", !pesquisavel);
+  $("search").placeholder = page === "alunos" ? "⌕ Buscar aluno ou e-mail..." : "⌕ Buscar título ou autor...";
+
+  if (page === "livros") renderGerenciarLivros();
+  if (page === "alunos") renderAlunos();
+  if (page === "emprestimos") {
+    preencherSelectsEmprestimo();
+    carregarEmprestimos();
+  }
+  if (page === "historico") carregarHistorico();
+}
+
+document.querySelectorAll("[data-page]").forEach(el => {
+  el.addEventListener("click", event => {
+    event.preventDefault();
+    navegar(el.dataset.page);
+  });
+});
+$("exploreButton").addEventListener("click", () =>
+  $("books").scrollIntoView({behavior:"smooth"})
+);
+
+function elemento(tag, className, texto) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (texto !== undefined && texto !== null) el.textContent = String(texto);
+  return el;
+}
+
+function fallbackCapa(titulo, id) {
+  const colors = ["#344d3a","#79513e","#5c5269","#8a4c3e","#4b6271"];
+  const el = elemento("div","cover-placeholder",titulo || "Livro");
+  el.style.background = colors[Math.abs(Number(id) || 0) % colors.length];
+  return el;
+}
+
+async function carregarCapa(livro, wrap) {
+  if (!livro.id) return;
+  try {
+    const response = await fetch("/livros/" + encodeURIComponent(livro.id) + "/capa", {
+      headers:{Authorization:"Bearer " + token}
+    });
+    if (!response.ok) return;
+    const blob = await response.blob();
+    if (!blob.type.startsWith("image/")) return;
+    const url = URL.createObjectURL(blob);
+    const img = document.createElement("img");
+    img.alt = "Capa de " + (livro.titulo || "livro");
+    img.src = url;
+    img.onerror = () => URL.revokeObjectURL(url);
+    img.onload = () => URL.revokeObjectURL(url);
+    wrap.replaceChildren(img);
+  } catch {}
+}
+
+function criarCard(livro, gerenciar = false) {
+  const card = elemento("article","book-card");
+  const cover = elemento("div","cover-wrap");
+  cover.appendChild(fallbackCapa(livro.titulo, livro.id));
+  const title = elemento("h3","",livro.titulo || "Sem título");
+  const author = elemento("p","",livro.autor || "Autor não informado");
+  const year = elemento("span","pill",livro.anoPublicacao || "Ano não informado");
+  card.append(cover,title,author,year);
+  carregarCapa(livro,cover);
+
+  if (gerenciar) {
+    const actions = elemento("div","card-actions");
+    const edit = elemento("button","btn btn-small","Editar");
+    edit.addEventListener("click",() => preencherFormularioLivro(livro));
+    const del = elemento("button","btn btn-small btn-danger","Excluir");
+    del.addEventListener("click",() => excluirLivro(livro));
+    const capa = elemento("button","btn btn-small btn-light","Enviar capa");
+    capa.addEventListener("click",() => escolherCapa(livro));
+    actions.append(edit,del,capa);
+    card.appendChild(actions);
+  }
+  return card;
+}
+
+function renderCatalogo() {
+  const area = $("books");
+  area.replaceChildren();
+  const term = $("search").value.trim().toLowerCase();
+  const filtered = livros.filter(book =>
+    (book.titulo || "").toLowerCase().includes(term) ||
+    (book.autor || "").toLowerCase().includes(term)
+  );
+  $("bookCount").textContent = `${filtered.length} ${filtered.length === 1 ? "livro" : "livros"}`;
+  if (!filtered.length) {
+    area.appendChild(elemento("div","empty",term ? "Nenhum livro corresponde à pesquisa." : "Nenhum livro cadastrado no acervo."));
+    return;
+  }
+  filtered.forEach(book => area.appendChild(criarCard(book)));
+}
+
+async function carregarLivros() {
+  try {
+    const data = await api("/livros");
+    if (!Array.isArray(data)) throw new Error("A API /livros não retornou uma lista.");
+    livros = data;
+    renderCatalogo();
+    renderGerenciarLivros();
+    preencherSelectsEmprestimo();
+  } catch (error) {
+    $("books").replaceChildren(elemento("div","empty",error.message));
+    avisar(error.message,true);
+  }
+}
+
+function renderGerenciarLivros() {
+  const area = $("manageBooks");
+  if (!area) return;
+  area.replaceChildren();
+  if (!livros.length) {
+    area.appendChild(elemento("div","empty","Nenhum livro cadastrado."));
+    return;
+  }
+  livros.forEach(book => area.appendChild(criarCard(book,true)));
+}
+
+function resetBookForm() {
+  $("bookForm").reset();
+  $("bookId").value = "";
+  $("bookFormTitle").textContent = "Cadastrar livro";
+  $("bookFormCard").classList.add("hidden");
+}
+
+function preencherFormularioLivro(book) {
+  $("bookId").value = book.id;
+  $("bookTitle").value = book.titulo || "";
+  $("bookAuthor").value = book.autor || "";
+  $("bookYear").value = book.anoPublicacao || "";
+  $("bookFormTitle").textContent = "Editar livro #" + book.id;
+  $("bookFormCard").classList.remove("hidden");
+  $("bookFormCard").scrollIntoView({behavior:"smooth"});
+}
+
+$("newBook").addEventListener("click",() => {
+  resetBookForm();
+  $("bookFormCard").classList.remove("hidden");
+  $("bookFormCard").scrollIntoView({behavior:"smooth"});
+});
+$("cancelBook").addEventListener("click",resetBookForm);
+
+$("bookForm").addEventListener("submit",async event => {
+  event.preventDefault();
+  const id = $("bookId").value;
+  const book = {
+    titulo:$("bookTitle").value.trim(),
+    autor:$("bookAuthor").value.trim(),
+    anoPublicacao:Number($("bookYear").value)
+  };
+  try {
+    await api(id ? "/livros/" + encodeURIComponent(id) : "/livros",{
+      method:id ? "PUT" : "POST",body:JSON.stringify(book)
+    });
+    avisar(id ? "Livro atualizado." : "Livro cadastrado.");
+    resetBookForm();
+    await carregarLivros();
+  } catch(error) { avisar(error.message,true); }
+});
+
+async function excluirLivro(book) {
+  if (!confirm(`Deseja excluir "${book.titulo}"?`)) return;
+  try {
+    await api("/livros/" + encodeURIComponent(book.id),{method:"DELETE"});
+    avisar("Livro excluído.");
+    await carregarLivros();
+  } catch(error) { avisar(error.message,true); }
+}
+
+function escolherCapa(book) {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.addEventListener("change",async () => {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    const form = new FormData();
+    form.append("arquivo",file);
+    try {
+      await api("/livros/" + encodeURIComponent(book.id) + "/capa",{method:"POST",body:form});
+      avisar("Capa enviada.");
+      await carregarLivros();
+    } catch(error) { avisar(error.message,true); }
+  });
+  input.click();
+}
+
+// ==================== ALUNOS ====================
+
+async function carregarAlunos() {
+  try {
+    const data = await api("/alunos");
+    if (!Array.isArray(data)) throw new Error("A API /alunos não retornou uma lista.");
+    alunos = data;
+    renderAlunos();
+    preencherSelectsEmprestimo();
+  } catch(error) {
+    $("studentsTable").replaceChildren(elemento("div","empty",error.message));
+    avisar(error.message,true);
+  }
+}
+
+function renderAlunos() {
+  const area = $("studentsTable");
+  area.replaceChildren();
+  const term = $("search").value.trim().toLowerCase();
+  const lista = alunos.filter(a =>
+    String(a.nome || "").toLowerCase().includes(term) ||
+    String(a.email || "").toLowerCase().includes(term) ||
+    String(a.id ?? "").includes(term)
+  );
+
+  $("studentsSummary").textContent =
+    `${lista.length} ${lista.length === 1 ? "aluno encontrado" : "alunos encontrados"}`;
+
+  if (!lista.length) {
+    area.appendChild(elemento("div","empty",
+      term ? "Nenhum aluno corresponde à pesquisa." : "Nenhum aluno cadastrado. Clique em “Novo aluno” para começar."
+    ));
+    return;
+  }
+
+  const wrap = elemento("div","table-wrap");
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const trh = document.createElement("tr");
+
+  ["ID","Nome completo","E-mail","Ações"].forEach(text => {
+    trh.appendChild(elemento("th","",text));
+  });
+  thead.appendChild(trh);
+
+  const tbody = document.createElement("tbody");
+
+  lista.forEach(aluno => {
+    const tr = document.createElement("tr");
+    [aluno.id,aluno.nome,aluno.email].forEach(value => {
+      tr.appendChild(elemento("td","",value ?? "—"));
+    });
+
+    const actions = elemento("td");
+    const edit = elemento("button","btn btn-small","Editar");
+    edit.addEventListener("click",() => preencherFormularioAluno(aluno));
+
+    const del = elemento("button","btn btn-small btn-danger","Excluir");
+    del.style.marginLeft = "6px";
+    del.addEventListener("click",() => excluirAluno(aluno));
+
+    actions.append(edit,del);
+    tr.appendChild(actions);
+    tbody.appendChild(tr);
+  });
+
+  table.append(thead,tbody);
+  wrap.appendChild(table);
+  area.appendChild(wrap);
+}
+
+function preencherFormularioAluno(aluno) {
+  $("studentId").value = aluno.id;
+  $("studentName").value = aluno.nome || "";
+  $("studentEmail").value = aluno.email || "";
+  $("studentFormTitle").textContent = "Editar aluno #" + aluno.id;
+  $("studentFormCard").classList.remove("hidden");
+  $("studentFormCard").scrollIntoView({behavior:"smooth"});
+}
+
+function resetStudentForm() {
+  $("studentForm").reset();
+  $("studentId").value = "";
+  $("studentFormTitle").textContent = "Cadastrar aluno";
+  $("studentFormCard").classList.add("hidden");
+}
+
+$("newStudent").addEventListener("click",() => {
+  resetStudentForm();
+  $("studentFormCard").classList.remove("hidden");
+  $("studentFormCard").scrollIntoView({behavior:"smooth"});
+});
+$("cancelStudent").addEventListener("click",resetStudentForm);
+$("refreshStudents").addEventListener("click",carregarAlunos);
+
+$("studentForm").addEventListener("submit",async event => {
+  event.preventDefault();
+  const id = $("studentId").value;
+  const aluno = {
+    nome:$("studentName").value.trim(),
+    email:$("studentEmail").value.trim()
+  };
+
+  try {
+    await api(id ? "/alunos/" + encodeURIComponent(id) : "/alunos",{
+      method:id ? "PUT" : "POST",
+      body:JSON.stringify(aluno)
+    });
+    avisar(id ? "Aluno atualizado com sucesso." : "Aluno cadastrado com sucesso.");
+    resetStudentForm();
+    await carregarAlunos();
+  } catch(error) {
+    avisar(error.message,true);
+  }
+});
+
+async function excluirAluno(aluno) {
+  if (!confirm(`Deseja excluir o aluno "${aluno.nome}"?`)) return;
+  try {
+    await api("/alunos/" + encodeURIComponent(aluno.id),{method:"DELETE"});
+    avisar("Aluno excluído.");
+    await carregarAlunos();
+  } catch(error) {
+    avisar(error.message,true);
+  }
+}
+
+// ==================== EMPRÉSTIMOS ====================
+
+function preencherSelectsEmprestimo() {
+  const studentSelect = $("loanStudentId");
+  const bookSelect = $("loanBookId");
+  if (!studentSelect || !bookSelect) return;
+
+  const oldStudent = studentSelect.value;
+  const oldBook = bookSelect.value;
+
+  studentSelect.replaceChildren();
+  bookSelect.replaceChildren();
+
+  studentSelect.appendChild(elemento("option","","Selecione um aluno"));
+  studentSelect.options[0].value = "";
+
+  alunos.forEach(a => {
+    const option = elemento("option","",`${a.nome || "Aluno"} (ID ${a.id})`);
+    option.value = a.id;
+    studentSelect.appendChild(option);
+  });
+
+  bookSelect.appendChild(elemento("option","","Selecione um livro"));
+  bookSelect.options[0].value = "";
+
+  livros.forEach(b => {
+    const option = elemento("option","",`${b.titulo || "Livro"} (ID ${b.id})`);
+    option.value = b.id;
+    bookSelect.appendChild(option);
+  });
+
+  studentSelect.value = oldStudent;
+  bookSelect.value = oldBook;
+}
+
+function campoData(item,...keys) {
+  for (const key of keys) {
+    if (item && item[key] != null && item[key] !== "") return dataISO(item[key]);
+  }
+  return "—";
+}
+
+function nomeAluno(item) {
+  if (item.aluno && typeof item.aluno === "object") {
+    return item.aluno.nome || `Aluno #${item.aluno.id ?? "?"}`;
+  }
+  const id = item.alunoId ?? item.aluno_id;
+  const encontrado = alunos.find(a => String(a.id) === String(id));
+  return encontrado ? encontrado.nome : (id != null ? `Aluno #${id}` : "—");
+}
+
+function nomeLivro(item) {
+  if (item.livro && typeof item.livro === "object") {
+    return item.livro.titulo || `Livro #${item.livro.id ?? "?"}`;
+  }
+  const id = item.livroId ?? item.livro_id;
+  const encontrado = livros.find(b => String(b.id) === String(id));
+  return encontrado ? encontrado.titulo : (id != null ? `Livro #${id}` : "—");
+}
+
+function devolvido(item) {
+  return Boolean(
+    item.dataDevolucao ??
+    item.data_devolucao ??
+    item.dataDevolucaoReal ??
+    item.devolvidoEm
+  ) || ["DEVOLVIDO","DEVOLVIDA","ENCERRADO","ENCERRADA"].includes(
+    String(item.status || "").toUpperCase()
+  );
+}
+
+function montarTabelaEmprestimos(lista,area,historico = false) {
+  area.replaceChildren();
+
+  if (!Array.isArray(lista) || !lista.length) {
+    area.appendChild(elemento("div","empty","Nenhum empréstimo encontrado."));
+    return;
+  }
+
+  const wrap = elemento("div","table-wrap");
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const trh = document.createElement("tr");
+
+  ["ID","Aluno","Livro","Data do empréstimo","Prevista para devolução","Data da devolução","Ação"].forEach(label => {
+    trh.appendChild(elemento("th","",label));
+  });
+  thead.appendChild(trh);
+
+  const tbody = document.createElement("tbody");
+
+  lista.forEach(item => {
+    const tr = document.createElement("tr");
+    const id = item.id ?? item.emprestimoId ?? "—";
+
+    const values = [
+      id,
+      nomeAluno(item),
+      nomeLivro(item),
+      campoData(item,"dataEmprestimo","data_emprestimo","dataRetirada","createdAt"),
+      campoData(item,"dataPrevistaDevolucao","data_prevista_devolucao","dataPrevista"),
+      campoData(item,"dataDevolucao","data_devolucao","dataDevolucaoReal","devolvidoEm")
+    ];
+
+    values.forEach((value,index) => {
+      const td = elemento("td",index >= 3 ? "date-text" : "",value);
+      tr.appendChild(td);
+    });
+
+    const action = elemento("td");
+    if (!historico && !devolvido(item)) {
+      const button = elemento("button","btn btn-small","Registrar devolução");
+      button.addEventListener("click",async () => {
+        if (!confirm("Confirmar a devolução deste livro?")) return;
+        try {
+          await api("/emprestimos/" + encodeURIComponent(id) + "/devolucao",{
+            method:"PATCH"
+          });
+          avisar("Devolução registrada.");
+          await carregarEmprestimos();
+        } catch(error) {
+          avisar(error.message,true);
+        }
+      });
+      action.appendChild(button);
+    } else {
+      action.textContent = devolvido(item) ? "Devolvido" : "Em aberto";
+    }
+
+    tr.appendChild(action);
+    tbody.appendChild(tr);
+  });
+
+  table.append(thead,tbody);
+  wrap.appendChild(table);
+  area.appendChild(wrap);
+}
+
+function listaResposta(data) {
+  if (Array.isArray(data)) return data;
+  if (data && Array.isArray(data.content)) return data.content;
+  if (data && Array.isArray(data.emprestimos)) return data.emprestimos;
+  if (data && Array.isArray(data.resultados)) return data.resultados;
+  return null;
+}
+
+function estaAtrasado(item) {
+  if (devolvido(item)) return false;
+  const due = campoData(item,"dataPrevistaDevolucao","data_prevista_devolucao","dataPrevista");
+  return due !== "—" && due < hojeISO();
+}
+
+async function carregarEmprestimos() {
+  try {
+    // A listagem geral é a base para estatísticas e fallback.
+    const todosRaw = await api("/emprestimos");
+    const todos = listaResposta(todosRaw);
+    if (!todos) throw new Error("A API /emprestimos não retornou uma lista reconhecida.");
+
+    emprestimos = todos;
+
+    // Tenta usar o endpoint específico de ativos; se não estiver disponível,
+    // filtra a lista geral sem impedir a tela de funcionar.
+    try {
+      const ativosRaw = await api("/emprestimos/ativos");
+      const ativos = listaResposta(ativosRaw);
+      emprestimosAtivos = ativos || todos.filter(item => !devolvido(item));
+    } catch {
+      emprestimosAtivos = todos.filter(item => !devolvido(item));
+    }
+
+    let atrasados;
+    try {
+      const atrasadosRaw = await api("/emprestimos/atrasados");
+      const parsed = listaResposta(atrasadosRaw);
+      atrasados = parsed || todos.filter(estaAtrasado);
+    } catch {
+      atrasados = todos.filter(estaAtrasado);
+    }
+
+    $("activeCount").textContent = emprestimosAtivos.length;
+    $("lateCount").textContent = atrasados.length;
+    $("loanCount").textContent = emprestimos.length;
+    montarTabelaEmprestimos(emprestimosAtivos,$("loansTable"));
+  } catch(error) {
+    $("loansTable").replaceChildren(elemento("div","empty",error.message));
+    $("activeCount").textContent = "—";
+    $("lateCount").textContent = "—";
+    $("loanCount").textContent = "—";
+    avisar(error.message,true);
+  }
+}
+
+async function carregarHistorico() {
+  try {
+    const data = await api("/emprestimos");
+    const lista = listaResposta(data);
+    if (!lista) throw new Error("A API /emprestimos não retornou uma lista reconhecida.");
+    emprestimos = lista;
+    montarTabelaEmprestimos(lista,$("historyTable"),true);
+  } catch(error) {
+    $("historyTable").replaceChildren(elemento("div","empty",error.message));
+    avisar(error.message,true);
+  }
+}
+
+$("loanForm").addEventListener("submit",async event => {
+  event.preventDefault();
+
+  const due = $("loanDueDate").value;
+  const alunoId = $("loanStudentId").value;
+  const livroId = $("loanBookId").value;
+
+  // input type=date fornece AAAA-MM-DD, formato esperado pelo LocalDate.
+  if (!alunoId || !livroId) {
+    avisar("Selecione um aluno e um livro.",true);
+    return;
+  }
+  if (!due || due <= hojeISO()) {
+    avisar("A data prevista de devolução precisa ser posterior a hoje.",true);
+    return;
+  }
+
+  const payload = {
+    alunoId:Number(alunoId),
+    livroId:Number(livroId),
+    dataPrevistaDevolucao:due
+  };
+
+  try {
+    await api("/emprestimos",{
+      method:"POST",
+      body:JSON.stringify(payload)
+    });
+    avisar("Empréstimo registrado com sucesso.");
+    $("loanForm").reset();
+    await carregarEmprestimos();
+  } catch(error) {
+    avisar(error.message,true);
+  }
+});
+
+$("refreshLoans").addEventListener("click",carregarEmprestimos);
+$("refreshHistory").addEventListener("click",carregarHistorico);
+
+// ==================== USUÁRIOS ====================
+
+$("userForm").addEventListener("submit",async event => {
+  event.preventDefault();
+  try {
+    await api("/usuarios",{
+      method:"POST",
+      body:JSON.stringify({
+        login:$("newUserLogin").value.trim(),
+        senha:$("newUserPassword").value
+      })
+    });
+    avisar("Usuário cadastrado com sucesso.");
+    $("userForm").reset();
+  } catch(error) {
+    avisar(error.message,true);
+  }
+});
+
+// Pesquisa para o catálogo e para a listagem geral de alunos.
+$("search").addEventListener("input",() => {
+  if ($("alunos").classList.contains("active")) renderAlunos();
+  else renderCatalogo();
+});
+
+// Inicialização da aplicação.
+if (token) {
+  showApp();
+  Promise.all([carregarLivros(),carregarAlunos()])
+    .then(() => carregarEmprestimos());
+} else {
+  showLogin();
+}
 })();
 </script>
 </body>

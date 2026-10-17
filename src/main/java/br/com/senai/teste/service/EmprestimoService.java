@@ -35,7 +35,7 @@ public class EmprestimoService {
             return Optional.empty();
         }
 
-        boolean livroEmprestado = emprestimoRepository.existsByLivroAndDataDevolucaoIsNull(livroId);
+        boolean livroEmprestado = emprestimoRepository.existsByLivro_IdAndDataDevolucaoIsNull(livroId);
         
         if (livroEmprestado) {
             throw new ResponseStatusException(
