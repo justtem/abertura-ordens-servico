@@ -19,4 +19,5 @@ public interface EmprestimoRepository
         List<Emprestimo> findByDataPrevistaDevolucaoBeforeAndDataDevolucaoIsNull(LocalDate dataAtual);
 
         List<Emprestimo> findByDataPrevistaDevolucaoBeforeAndDataDevolucaoIsNullAndAlunoId(LocalDate dataAtual, Integer alunoId);
+
 }

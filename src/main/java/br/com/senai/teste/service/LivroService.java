@@ -101,34 +101,34 @@ public class LivroService {
         return livroRepository.save(livro);
     }
 
-public Optional<byte[]> buscarCapa(Integer id) {
-    Optional<Livro> resultado = livroRepository.findById(id);
+    public Optional<byte[]> buscarCapa(Integer id) {
+        Optional<Livro> resultado = livroRepository.findById(id);
 
-    if (resultado.isEmpty()) {
-        return Optional.empty();
-    }
-
-    Livro livro = resultado.get();
-
-    String nomeArquivo = livro.getNomeArquivoCapa();
-
-    if (nomeArquivo == null || nomeArquivo.isBlank()) {
-        return Optional.empty();
-    }
-
-    try {
-        Path caminho = Paths.get("uploads/capas")
-                .resolve(nomeArquivo)
-                .normalize();
-
-        if (!Files.exists(caminho) || !Files.isRegularFile(caminho)) {
+        if (resultado.isEmpty()) {
             return Optional.empty();
         }
 
-        return Optional.of(Files.readAllBytes(caminho));
+        Livro livro = resultado.get();
 
-    } catch (IOException e) {
-        throw new RuntimeException("Erro ao ler a capa do livro", e);
+        String nomeArquivo = livro.getNomeArquivoCapa();
+
+        if (nomeArquivo == null || nomeArquivo.isBlank()) {
+            return Optional.empty();
+        }
+
+        try {
+            Path caminho = Paths.get("uploads/capas")
+                    .resolve(nomeArquivo)
+                    .normalize();
+
+            if (!Files.exists(caminho) || !Files.isRegularFile(caminho)) {
+                return Optional.empty();
+            }
+
+            return Optional.of(Files.readAllBytes(caminho));
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao ler a capa do livro", e);
+        }
     }
-}
 }
